@@ -2,10 +2,32 @@
   "name": "git-auto-deploy",
   "version": "0.0.1",
   "description": "deploy project automatically from your github repo",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "npm run watch & node server.js",
+    "watch": "watchify app.js -o public/js/bundle.js -v",
+    "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
+    "build": "npm run browserify ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "nb",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.5.5",
+    "react": "^15.2.1",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "reactify": "^1.1.1",
+    "uglify-js": "^2.7.0",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  }
 }
