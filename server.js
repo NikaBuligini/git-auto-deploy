@@ -1,7 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const http = require('http')
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const routes = require('./routes')
 // const config = require('./config')
 
@@ -20,7 +20,7 @@ app.set('view engine', 'handlebars')
 app.disable('etag')
 
 // Connect to our mongo database
-// mongoose.connect('mongodb://localhost/react-tweets')
+mongoose.connect('mongodb://localhost/git-auto-deploy')
 
 // Index Route
 app.get('/', routes.index)
