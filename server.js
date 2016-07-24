@@ -1,7 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const http = require('http')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const routes = require('./routes')
 // const config = require('./config')
 
@@ -10,7 +10,10 @@ const app = express()
 const port = process.env.PORT || 8080
 
 // Set handlebars as the templating engine
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  partialsDir: __dirname + '/views/partials'
+}))
 app.set('view engine', 'handlebars')
 
 // Disable etag headers on responses

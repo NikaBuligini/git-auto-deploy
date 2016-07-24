@@ -17,5 +17,4 @@ module.exports = {
     res.writeHead(200, {'Content-Type': 'text/plain'})
     res.end('Hello World from page. page=' + req.params.page + ' skip=' + req.params.skip + '\n')
   }
-
 }
