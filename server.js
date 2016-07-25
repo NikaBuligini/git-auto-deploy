@@ -1,20 +1,24 @@
 const express = require('express')
-const exphbs = require('express-handlebars')
+const session = require('express-session')
 const http = require('http')
 const mongoose = require('mongoose')
-const routes = require('./routes')
+const path = require('path')
 // const config = require('./config')
 
 // Create an express instance and set a port variable
 const app = express()
 const port = process.env.PORT || 8080
 
-// Set handlebars as the templating engine
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main',
-  partialsDir: __dirname + '/views/partials'
+app.use(session({
+  secret: 'gers1g5e10gt0hcbBRH1h',
+  resave: false,
+  saveUninitialized: true
 }))
-app.set('view engine', 'handlebars')
+
+// Set jsx as the templating engine
+app.set('views', path.resolve(__dirname, 'views'))
+app.set('view engine', 'jsx')
+app.engine('jsx', require('express-react-views').createEngine())
 
 // Disable etag headers on responses
 app.disable('etag')
@@ -22,11 +26,12 @@ app.disable('etag')
 // Connect to our mongo database
 mongoose.connect('mongodb://localhost/git-auto-deploy')
 
+app.use('/', require('./routes'))
 // Index Route
-app.get('/', routes.index)
+// app.get('/', routes.index)
 
 // Page Route
-app.get('/page/:page/:skip', routes.page)
+// app.get('/page/:page/:skip', routes.page)
 
 // Set /public as our static content dir
 app.use('/', express.static(__dirname + '/public/'))

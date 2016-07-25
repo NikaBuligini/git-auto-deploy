@@ -1,25 +1,26 @@
 'use strict'
 
-const JSX = require('node-jsx').install()
-const React = require('react')
-const ReactDOMServer = require('react-dom/server')
+const express = require('express')
+const session = require('express-session')
+const router = express.Router()
 
-module.exports = {
-  index: function (req, res) {
-    // res.writeHead(200, {'Content-Type': 'text/plain'})
-    // res.end('Hello World\n')
-
-    let markup = 'markup'
-
-    res.render('home', {
-      markup: markup, // Pass rendered react markup
-      greet: 'Hello World',
-      state: JSON.stringify({ greet: 'Hello World' }) // Pass current state to client side
-    })
-  },
-
-  page: function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'})
-    res.end('Hello World from page. page=' + req.params.page + ' skip=' + req.params.skip + '\n')
+router.get('/', (req, res) => {
+  var sess = req.session
+  if (sess.views) {
+    sess.views++
+    console.log('views: ' + sess.views)
+  } else {
+    sess.views = 1
+    console.log('welcome to the session demo. refresh!')
   }
-}
+
+  if (false) res.redirect('/login')
+  res.render('./pages/home', { title: 'React test' })
+})
+
+router.get('/page', (req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'})
+  res.end('Hello World from page. page=' + req.params.page + ' skip=' + req.params.skip + '\n')
+})
+
+module.exports = router
