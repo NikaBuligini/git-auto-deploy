@@ -2,9 +2,16 @@ body {background-color: #f5f8fa;}
 
 svg.octopus {position: absolute; width: 24pt; height: 22pt; left: 50%;
   margin-left: -17pt; margin-top: 8px;}
+.auth-content svg.octopus {width: 65pt; height: 60pt; margin-left: -35pt;}
 svg.octopus g {stroke: #000; stroke-width: 0; transition: fill .3s ease-out;
   transform: translate(0, 406px) scale(0.1, -0.1);}
 svg.octopus:hover g {/*fill: #005a9c;*/}
+.auth-content svg.octopus g {fill: rebeccapurple; animation: colorize 5s linear 2s infinite alternate;}
+
+@keyframes colorize {
+  from { fill: #fff; }
+  to { fill: #000; }
+}
 
 .container {position: relative; width: 890px; margin: 0 auto;}
 
@@ -17,10 +24,14 @@ svg.octopus:hover g {/*fill: #005a9c;*/}
 .page-outer {height: 100%;}
 .page-outer .wrapper {margin: 0 auto; min-height: 0; padding: 56px 23px 15px;
     position: relative; width: 890px;}
+.page-outer .auth-wrapper {margin: 0 auto; min-height: 0; padding: 0;
+    position: relative; width: 890px;}
 
 @media (min-width: 1236px) {
-  .page-outer .wrapper-home {width: 1190px;}
+  .page-outer .wrapper-home,
+  .page-outer .wrapper-auth {width: 1190px;}
   .global-nav .container {max-width: 1190px;}
 }
 
 .app-content {padding: 56px 14px 15px; position: relative;}
+.auth-content {padding: 0; position: relative;}

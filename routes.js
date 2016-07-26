@@ -5,17 +5,21 @@ const session = require('express-session')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  var sess = req.session
-  if (sess.views) {
-    sess.views++
-    console.log('views: ' + sess.views)
-  } else {
-    sess.views = 1
-    console.log('welcome to the session demo. refresh!')
-  }
+  // var sess = req.session
+  // if (sess.views) {
+  //   sess.views++
+  //   console.log('views: ' + sess.views)
+  // } else {
+  //   sess.views = 1
+  //   console.log('welcome to the session demo. refresh!')
+  // }
 
-  if (false) res.redirect('/login')
+  if (false) res.redirect('/auth/login')
   res.render('./pages/home', { title: 'React test' })
+})
+
+router.get('/auth/login', (req, res) => {
+  res.render('./pages/login', {})
 })
 
 router.get('/page', (req, res) => {
