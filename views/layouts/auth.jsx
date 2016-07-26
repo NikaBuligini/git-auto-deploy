@@ -13,11 +13,9 @@ var AuthLayout = React.createClass({
           <link rel="stylesheet" type="text/css" href="/css/app.css" />
         </head>
         <body>
-          <div>
-            <div className="page-outer">
-              <div className="auth-content auth-wrapper wrapper-auth">
-                {this.props.children}
-              </div>
+          <div className="page-outer">
+            <div className="auth-content auth-wrapper wrapper-auth">
+              {this.props.children}
             </div>
           </div>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
