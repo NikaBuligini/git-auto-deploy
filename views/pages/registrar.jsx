@@ -9,24 +9,24 @@ class Registrar extends React.Component {
   }
   render() {
     return (
-      <AuthLayout>
+      <AuthLayout title="Registrar">
         <div className="registrar">
           <Octopus />
           <form>
             <div className="form-group">
-              <label for="fullName">Full name</label>
+              <label htmlFor="fullName">Full name</label>
               <input type="text" className="form-control" id="fullName" />
             </div>
             <div className="form-group">
-              <label for="email">Email address</label>
+              <label htmlFor="email">Email address</label>
               <input type="email" className="form-control" id="email" />
             </div>
             <div className="form-group">
-              <label for="pswd">Password</label>
+              <label htmlFor="pswd">Password</label>
               <input type="password" className="form-control" id="pswd" />
             </div>
             <div className="form-group">
-              <label for="pswd_conf">Confirm your password</label>
+              <label htmlFor="pswd_conf">Confirm your password</label>
               <input type="password" className="form-control" id="pswd_conf" />
             </div>
             <button type="button" className="b-btn">Log in</button>
