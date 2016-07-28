@@ -22,6 +22,10 @@ router.get('/auth/login', (req, res) => {
   res.render('./pages/login', {})
 })
 
+router.get('/auth/registrar', (req, res) => {
+  res.render('./pages/registrar', {})
+})
+
 router.get('/page', (req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   res.end('Hello World from page. page=' + req.params.page + ' skip=' + req.params.skip + '\n')

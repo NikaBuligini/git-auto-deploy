@@ -1,9 +1,12 @@
 import React from 'react'
 
-var Navigation = require('../partials/navigation')
+import Navigation from '../partials/navigation'
 
-var DefaultLayout = React.createClass({
-  render: function() {
+class DefaultLayout extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
     return (
       <html lang="en">
         <head>
@@ -30,6 +33,6 @@ var DefaultLayout = React.createClass({
       </html>
     )
   }
-})
+}
 
-module.exports = DefaultLayout
+export default DefaultLayout

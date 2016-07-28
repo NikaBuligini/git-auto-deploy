@@ -1,15 +1,18 @@
 import React from 'react'
 
-var DefaultLayout = require('../layouts/default')
+import DefaultLayout from '../layouts/default'
 
-var HomeComponent = React.createClass({
-  render: function() {
+class HomeComponent extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
     return (
       <DefaultLayout title={this.props.title}>
         Hello World
       </DefaultLayout>
     )
   }
-})
+}
 
-module.exports = HomeComponent
+export default HomeComponent

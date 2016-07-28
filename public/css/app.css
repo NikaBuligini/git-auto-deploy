@@ -8,6 +8,7 @@ svg.octopus {position: absolute; width: 24pt; height: 22pt; left: 50%;
 svg.octopus g {stroke: #000; stroke-width: 0; transition: fill .3s ease-out;
   transform: translate(0, 406px) scale(0.1, -0.1);}
 svg.octopus:hover g {/*fill: #005a9c;*/}
+.auth-content .login .octopus, .auth-content .registrar .octopus {width: 100%;}
 
 .container {position: relative; width: 890px; margin: 0 auto;}
 
@@ -32,11 +33,14 @@ svg.octopus:hover g {/*fill: #005a9c;*/}
 .app-content {padding: 56px 14px 15px; position: relative;}
 .auth-content {padding: 0; position: relative;}
 
-.auth-content .login {width: 300px; margin: 120px auto 0 auto; text-align: center;}
+.auth-content .login, .auth-content .registrar
+  {width: 300px; margin: 120px auto 0 auto;}
 .auth-content .login input.password {text-align: center;}
-.auth-content .login .b-btn { box-shadow: 0 1px 0 #fff; height: 32px;
+.b-btn {box-shadow: 0 1px 0 #fff; height: 32px;
     line-height: 11px; width: 100%; white-space: nowrap; color: #fff;
     background-color: #1da1f2; padding: 8px 16px; margin: 10px 0 0 0;
     background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05));
     border: 1px solid #3b88c3; border-radius: 4px; cursor: pointer;
     font-weight: bold;}
+.b-btn:hover {background-color: #0084B4;}
+.b-btn:focus {box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(0, 132, 180, 0.5)}

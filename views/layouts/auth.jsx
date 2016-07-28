@@ -1,7 +1,10 @@
 import React from 'react'
 
-var AuthLayout = React.createClass({
-  render: function() {
+class AuthLayout extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
     return (
       <html lang="en">
         <head>
@@ -25,6 +28,6 @@ var AuthLayout = React.createClass({
       </html>
     )
   }
-})
+}
 
-module.exports = AuthLayout
+export default AuthLayout
