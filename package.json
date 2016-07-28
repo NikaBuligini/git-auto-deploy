@@ -8,7 +8,7 @@
     "watch": "watchify app.js -o public/js/bundle.js -v",
     "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
     "build": "npm run browserify ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha './tests/*.spec.js'"
   },
   "author": "nb",
   "license": "MIT",
@@ -24,6 +24,9 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "expect": "^1.20.2",
+    "mocha": "^2.5.3",
+    "react-addons-test-utils": "^15.2.1",
     "reactify": "^1.1.1",
     "uglify-js": "^2.7.0",
     "watchify": "^3.7.0"
