@@ -1,16 +1,5 @@
 import React from 'react'
 
-const styles = {
-  'start': {
-    stopColor: '#17011e',
-    stopOpacity: 1
-  },
-  'stop': {
-    stopColor: '#423158',
-    stopOpacity: 1
-  }
-}
-
 class Octopus extends React.Component {
   constructor(props) {
     super(props)
@@ -21,8 +10,8 @@ class Octopus extends React.Component {
         <metadata>Designed by nb</metadata>
         <defs>
           <linearGradient id="oct-grad" x1="50%" y1="30%" x2="120%" y2="100%">
-            <stop offset="0%" style={styles.start}></stop>
-            <stop offset="100%" style={styles.stop}></stop>
+            <stop offset="0%" style={{ stopColor: '#17011e', stopOpacity: 1 }}></stop>
+            <stop offset="100%" style={{ stopColor: '#423158', stopOpacity: 1 }}></stop>
           </linearGradient>
         </defs>
         <g className="svg-content" fill="url(#oct-grad)">
