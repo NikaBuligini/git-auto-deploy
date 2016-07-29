@@ -10,6 +10,10 @@
     "build": "npm run browserify ",
     "test": "mocha \"test/*.spec.js\""
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NikaBuligini/git-auto-deploy"
+  },
   "author": "nb",
   "license": "MIT",
   "dependencies": {
@@ -27,7 +31,6 @@
     "expect": "^1.20.2",
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.2.1",
-    "react-object-inspector": "^0.2.1",
     "reactify": "^1.1.1",
     "uglify-js": "^2.7.0",
     "watchify": "^3.7.0"
