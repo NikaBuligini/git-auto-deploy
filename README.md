@@ -1,5 +1,10 @@
 # Git auto deploy
 
+[![build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![npm](https://img.shields.io/badge/npm-3.8.9-blue.svg)]()
+[![node](https://img.shields.io/badge/node-6.2.0-yellow.svg)]()
+[![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/NikaBuligini/git-auto-deploy/blob/master/LICENSE)
+
 Deploy your project automatically from your github repository
 
 ## Installation
