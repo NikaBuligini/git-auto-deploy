@@ -12,8 +12,13 @@ class Login extends React.Component {
       <AuthLayout title="Login">
         <div className="login">
           <Octopus />
-          <input type="password" className="form-control password" placeholder="Password" />
-          <button type="button" className="b-btn">Log in</button>
+          <form method="post" action="/auth/login">
+            <div className="form-group">
+              <input type="password" name="pswd"
+                className="form-control password" placeholder="Password" />
+            </div>
+            <button type="submit" className="b-btn">Log in</button>
+          </form>
         </div>
       </AuthLayout>
     )

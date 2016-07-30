@@ -1,5 +1,6 @@
 const express = require('express')
 const session = require('express-session')
+const bodyParser = require('body-parser')
 const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
@@ -9,6 +10,14 @@ const path = require('path')
 const app = express()
 const port = process.env.PORT || 8080
 
+// to support JSON-encoded bodies
+app.use(bodyParser.json())
+// to support URL-encoded bodies
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+
+// to hold session
 app.use(session({
   secret: 'gers1g5e10gt0hcbBRH1h',
   resave: false,
