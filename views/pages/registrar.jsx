@@ -42,7 +42,7 @@ class Registrar extends React.Component {
             <InputComponent data={this.state.email} />
             <InputComponent data={this.state.pswd} />
             <InputComponent data={this.state.pswd_conf} />
-            <button type="submit" className="b-btn">Log in</button>
+            <button type="submit" className="b-btn">Register</button>
           </form>
         </div>
       </AuthLayout>

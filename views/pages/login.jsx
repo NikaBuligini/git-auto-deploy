@@ -2,6 +2,7 @@ import React from 'react'
 
 import AuthLayout from '../layouts/auth'
 import Octopus from '../partials/octopus-logo'
+import Alert from '../util/alert'
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Login extends React.Component {
       <AuthLayout title="Login">
         <div className="login">
           <Octopus />
-          <form method="post" action="/auth/login">
+          <Alert message={this.props.message} />
+          <form method="post" action="/auth/login" className="login-form">
             <div className="form-group">
               <input type="password" name="pswd"
                 className="form-control password" placeholder="Password" />

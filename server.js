@@ -29,6 +29,17 @@ app.set('views', path.resolve(__dirname, 'views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
+app.use(function(req, res, next){
+  var err = req.session.error
+  var msg = req.session.success
+  delete req.session.error
+  delete req.session.success
+  res.locals.message = ''
+  if (err) res.locals.message = { isError: true, text: err }
+  if (msg) res.locals.message = { isError: false, text: msg }
+  next()
+})
+
 // Disable etag headers on responses
 app.disable('etag')
 

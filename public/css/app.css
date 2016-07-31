@@ -16,7 +16,8 @@ svg.octopus:hover g {/*fill: #005a9c;*/}
   left: 0; border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000;}
 .global-nav {background-color: #fff; border-bottom: 1px solid rgba(0,0,0,0.15);
   height: 46px; position: relative; width: 100%;}
-.global-nav .container {max-width: 890px; text-align: center; width: auto;}
+.global-nav .container {max-width: 890px; text-align: center; width: auto;
+  height: 46px;}
 
 .page-outer {height: 100%;}
 .page-outer .wrapper {margin: 0 auto; min-height: 0; padding: 56px 23px 15px;
@@ -44,3 +45,12 @@ svg.octopus:hover g {/*fill: #005a9c;*/}
     font-weight: bold;}
 .b-btn:hover {background-color: #0084B4;}
 .b-btn:focus {box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(0, 132, 180, 0.5)}
+
+.global-nav .user-panel {float: right;}
+.global-nav .user-panel .logout {line-height: 46px;}
+
+.login-form {padding-top: 15px;}
+
+.alert {padding: 15px; margin: 0;}
+.alert.alert-error {color: red;}
+.alert.alert-success {color: green;}

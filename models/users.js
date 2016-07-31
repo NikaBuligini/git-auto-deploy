@@ -44,10 +44,10 @@ UserSchema.pre('save', function (next) {
   if (!this.created_at) this.created_at = currentDate;
 })
 
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+UserSchema.methods.comparePassword = function (candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) return cb(err)
-    cb(null, isMatch, this)
+    callback(null, isMatch)
   })
 }
 
@@ -55,8 +55,13 @@ UserSchema.statics.authenticate = function (password, cb) {
   this.findOne({}, function (err, user) {
     if (err) throw err
 
-    if (user === null) cb('not registered yet')
-    else user.comparePassword(password, cb)
+    if (user) {
+      return user.comparePassword(password, (err, isMatch) => {
+        cb(err, isMatch === true ? user : null)
+      })
+    }
+
+    cb(new Error('User not registered yet'))
   })
 }
 

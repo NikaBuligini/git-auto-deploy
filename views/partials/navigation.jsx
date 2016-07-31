@@ -10,7 +10,12 @@ class Navigation extends React.Component {
     return (
       <nav className="topbar">
         <div className="global-nav">
-          <Octopus />
+          <div className="container">
+            <Octopus />
+            <div className="user-panel">
+              <a href="/auth/logout" className="logout">logout</a>
+            </div>
+          </div>
         </div>
       </nav>
     )
