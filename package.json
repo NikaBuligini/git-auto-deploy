@@ -1,11 +1,45 @@
 {
   "name": "git-auto-deploy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "deploy project automatically from your github repo",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run watch & node server.js",
+    "watch": "watchify app.js -o public/js/bundle.js -v",
+    "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
+    "build": "npm run browserify ",
+    "test": "mocha \"test/*.spec.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NikaBuligini/git-auto-deploy"
   },
   "author": "nb",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-react-views": "^0.10.2",
+    "express-session": "^1.14.0",
+    "mongoose": "^4.5.5",
+    "node-jsx": "^0.13.3",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "expect": "^1.20.2",
+    "mocha": "^2.5.3",
+    "react-addons-test-utils": "^15.2.1",
+    "reactify": "^1.1.1",
+    "uglify-js": "^2.7.0",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  }
 }
