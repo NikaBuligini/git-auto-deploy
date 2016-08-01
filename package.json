@@ -24,7 +24,6 @@
     "express-session": "^1.14.0",
     "github": "^2.4.0",
     "mongoose": "^4.5.5",
-    "node-github": "0.0.3",
     "node-jsx": "^0.13.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
