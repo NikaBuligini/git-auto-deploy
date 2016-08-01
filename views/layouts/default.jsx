@@ -3,9 +3,6 @@ import React from 'react'
 import Navigation from '../partials/navigation'
 
 class DefaultLayout extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
       <html lang="en">
