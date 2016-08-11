@@ -4,10 +4,11 @@
   "description": "deploy project automatically from your github repo",
   "main": "server.js",
   "scripts": {
-    "start": "npm run watch & node server.js",
+    "build": "gulp build",
     "watch": "watchify app.js -o public/js/bundle.js -v",
     "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
-    "build": "npm run browserify ",
+    "start": "gulp start --silent",
+    "serve": "npm run build & node server.js",
     "test": "mocha \"test/*.spec.js\""
   },
   "repository": {
@@ -18,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^0.8.7",
+    "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-react-views": "^0.10.2",
@@ -32,6 +34,12 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "expect": "^1.20.2",
+    "font-awesome": "^4.6.3",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.2.1",
     "reactify": "^1.1.1",

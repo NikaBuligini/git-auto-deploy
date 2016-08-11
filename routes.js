@@ -79,4 +79,40 @@ router.get('/page', (req, res) => {
   res.end('Hello World from page. page=' + req.params.page + ' skip=' + req.params.skip + '\n')
 })
 
+router.get('/git-auth', (req, res) => {
+  var GitHubApi = require('github')
+  var github = new GitHubApi({
+    // optional
+    debug: true,
+    protocol: "https",
+    host: "api.github.com", // should be api.github.com for GitHub
+    pathPrefix: "/", // for some GHEs; none for GitHub
+    headers: {
+        "user-agent": "buligini-oauth-test" // GitHub is happy with a unique user agent
+    },
+    Promise: require('bluebird'),
+    followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
+    timeout: 5000
+  })
+
+  // OAuth2 Key/Secret (to get a token)
+  github.authenticate({
+    type: 'oauth',
+    key: '32a14c7d7796878b76e4',
+    secret: 'd1e2bbcd07ffc91c97f42b7e3d39a300e87f59a9'
+  })
+  github.users.getFollowingForUser({
+    // optional:
+    // headers: {
+    //     "cookie": "blahblah"
+    // },
+    user: "NikaBuligini"
+  }, (err, resp) => {
+    res.render('./util/print', {data: resp})
+    // console.log(JSON.stringify(res))
+  })
+
+  // res.send('Done')
+})
+
 module.exports = router

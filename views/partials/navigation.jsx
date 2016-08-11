@@ -13,7 +13,9 @@ class Navigation extends React.Component {
           <div className="container">
             <Octopus />
             <div className="user-panel">
-              <a href="/auth/logout" className="logout">logout</a>
+              <a href="/auth/logout" className="logout">
+                <i className="fa fa-sign-out" aria-hidden="true" title="Sign out"></i>
+              </a>
             </div>
           </div>
         </div>

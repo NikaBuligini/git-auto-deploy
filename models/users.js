@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const SALT_WORK_FACTOR = 10;
+const SALT_WORK_FACTOR = 10
 
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({
@@ -35,13 +35,13 @@ UserSchema.pre('save', function (next) {
   })
 
   // get the current date
-  var currentDate = new Date();
+  var currentDate = new Date()
 
   // change the updated_at field to current date
-  this.updated_at = currentDate;
+  this.updated_at = currentDate
 
   // if created_at doesn't exist, add to that field
-  if (!this.created_at) this.created_at = currentDate;
+  if (!this.created_at) this.created_at = currentDate
 })
 
 UserSchema.methods.comparePassword = function (candidatePassword, callback) {
