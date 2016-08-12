@@ -27,7 +27,7 @@ gulp.task('start', ['sass:watch'], () => {
     script: 'server.js',
     ext: 'js',
     env: { 'NODE_ENV': 'development' },
-    watch: ['server.js', 'routes.js', 'models/*.js']
+    watch: ['server.js', 'routes.js', 'models/*.js', 'src/logger.js']
   })
 })
 

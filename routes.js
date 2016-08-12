@@ -3,6 +3,7 @@
 const express = require('express')
 const session = require('express-session')
 const router = express.Router()
+const logger = require('./src/logger')
 
 const User = require('./models/users')
 
@@ -29,9 +30,7 @@ router.get('/auth/login', notAuthenticated, (req, res) => {
 })
 
 router.post('/auth/login', notAuthenticated, (req, res, next) => {
-  User.authenticate(req.body.pswd, function(err, user) {
-    if (err) return req.session.error = err
-
+  User.authenticate(req.body.email, req.body.pswd, function(err, user) {
     if (user) {
       // Regenerate session when signing in
       return req.session.regenerate(function() {
@@ -39,13 +38,12 @@ router.post('/auth/login', notAuthenticated, (req, res, next) => {
         // in the session store to be retrieved,
         // or in this case the entire user object
         req.session.user_id = user._id
-        console.log('Success')
-        console.log(req.session.user_id)
         res.redirect('back')
       })
     }
 
-    req.session.error = 'Authentication failed, please check your password'
+    req.session.error = err ? err.message : 'Authentication failed, please check your password'
+
     res.redirect('/auth/login')
   })
 })

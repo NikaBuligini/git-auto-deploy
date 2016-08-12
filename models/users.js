@@ -51,8 +51,8 @@ UserSchema.methods.comparePassword = function (candidatePassword, callback) {
   })
 }
 
-UserSchema.statics.authenticate = function (password, cb) {
-  this.findOne({}, function (err, user) {
+UserSchema.statics.authenticate = function (email, password, cb) {
+  this.findOne({ email: email }, function (err, user) {
     if (err) throw err
 
     if (user) {
@@ -61,7 +61,7 @@ UserSchema.statics.authenticate = function (password, cb) {
       })
     }
 
-    cb(new Error('User not registered yet'))
+    cb(new Error('User not found'))
   })
 }
 
