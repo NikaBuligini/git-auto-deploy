@@ -6,7 +6,9 @@ const bodyParser = require('body-parser')
 const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
-// const config = require('./config')
+const dotenv = require('dotenv').config()
+
+global.__base = __dirname + '/'
 
 // Create an express instance and set a port variable
 const app = express()

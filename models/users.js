@@ -1,17 +1,23 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const request = require('request')
+const logger = require('../src/logger')
+
 const SALT_WORK_FACTOR = 10
 
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({
-  user_id     : String,
-  email       : { type: String, required: true, index: { unique: true } },
-  password    : { type: String, required: true },
-  fullname    : { type: String, required: true },
-  created_at  : Date,
-  updated_at  : { type: Date, default: Date.now }
+  user_id         : String,
+  github_user_id  : { type: String, required: true, index: { unique: true } },
+  access_token    : { type: String },
+  email           : { type: String, required: true, index: { unique: true } },
+  username        : { type: String, required: true, index: { unique: true } },
+  name            : { type: String, required: true },
+  avatar_url      : String,
+  html_url        : String,
+  created_at      : Date,
+  updated_at      : { type: Date, default: Date.now }
 })
 
 UserSchema.pre('save', function (next) {
@@ -19,20 +25,6 @@ UserSchema.pre('save', function (next) {
 
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next()
-
-  // generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-    if (err) return next(err)
-
-    // hash the password along with our new salt
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) return next(err)
-
-      // override the cleartext password with the hashed one
-      user.password = hash
-      next()
-    })
-  })
 
   // get the current date
   var currentDate = new Date()
@@ -44,24 +36,29 @@ UserSchema.pre('save', function (next) {
   if (!this.created_at) this.created_at = currentDate
 })
 
-UserSchema.methods.comparePassword = function (candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err)
-    callback(null, isMatch)
-  })
-}
-
-UserSchema.statics.authenticate = function (email, password, cb) {
-  this.findOne({ email: email }, function (err, user) {
+UserSchema.statics.authenticate = function (gitUser, cb) {
+  this.findOne({ github_user_id: gitUser.github_user_id }, (err, user) => {
     if (err) throw err
 
     if (user) {
-      return user.comparePassword(password, (err, isMatch) => {
-        cb(err, isMatch === true ? user : null)
-      })
+      user.access_token = gitUser.access_token
+      user.save(err => { if (err) return next(err) })
+    } else {
+      user = new this(gitUser)
+      user.save(err => { if (err) throw err })
     }
 
-    cb(new Error('User not found'))
+    cb(null, user)
+  })
+}
+
+UserSchema.statics.getUser = function (user_id, callback) {
+  this.findById(user_id, (err, user) => {
+    if (err) throw err
+
+    if (!user) throw new Error('User not found')
+
+    callback(user)
   })
 }
 

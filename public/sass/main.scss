@@ -107,6 +107,15 @@ svg.octopus:hover g {
 .auth-content .registrar {
   width: 300px;
   margin: 120px auto 0 auto;
+
+  .github-login {
+    width: 100%;
+    font-size: 15px;
+
+    .fa-github {
+      margin-right: 5px;
+    }
+  }
 }
 .auth-content .login input.password {
   text-align: center;
@@ -135,6 +144,10 @@ svg.octopus:hover g {
 
 .global-nav .user-panel {
   float: right;
+
+  .username {
+    margin-right: 10px;
+  }
 
   .logout {
     line-height: 46px;

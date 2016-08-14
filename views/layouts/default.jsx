@@ -22,7 +22,7 @@ class DefaultLayout extends React.Component {
         </head>
         <body>
           <div>
-            <Navigation />
+            <Navigation user={this.props.user} />
             <div className="page-outer">
               <div className="app-content wrapper wrapper-home">
                 {this.props.children}

@@ -8,11 +8,6 @@ import Input from '../util/input'
 class Login extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      email: { label: 'Email address', id: 'email', type: 'email' },
-      pswd: { label: 'Password', id: 'pswd', type: 'password' }
-    }
   }
   render() {
     return (
@@ -20,11 +15,10 @@ class Login extends React.Component {
         <div className="login">
           <Octopus />
           <Alert message={this.props.message} />
-          <form method="post" action="/auth/login" className="login-form">
-            <Input data={this.state.email} />
-            <Input data={this.state.pswd} />
-            <button type="submit" className="b-btn">Log in</button>
-          </form>
+          <a className="github-login" href="/auth/github">
+            <i className="fa fa-github"></i>
+            Sign in
+          </a>
         </div>
       </AuthLayout>
     )
