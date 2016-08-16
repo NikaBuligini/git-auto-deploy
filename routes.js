@@ -7,6 +7,7 @@ const request = require('request')
 const logger = require('./src/logger')
 
 const User = require('./models/users')
+const Repository = require('./models/repositories')
 const GitHubHelper = require('./models/github')
 
 function authenticated(req, res, next) {
@@ -25,13 +26,31 @@ function notAuthenticated(req, res, next) {
 
 router.get('/', authenticated, (req, res) => {
   User.getUser(req.session.user_id, (user) => {
-    GitHubHelper.repositories(user.access_token, (repos) => {
+    console.log(user)
+    if (user.repositories.length == 0) {
+      GitHubHelper.repositories(user.access_token, (repos) => {
+        repos.forEach((val) => {
+          let repo = new Repository(val)
+          repo.save(err => { if (err) return next(err) })
+
+          user.repositories.push(repo._id)
+        })
+
+        user.save()
+
+        res.render('./pages/home', {
+          title: 'React test',
+          user: user,
+          repos: repos
+        })
+      })
+    } else {
       res.render('./pages/home', {
         title: 'React test',
         user: user,
-        repos: repos
+        repos: user.repositories
       })
-    })
+    }
   })
 })
 

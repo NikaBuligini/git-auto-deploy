@@ -6,6 +6,8 @@ const logger = require('../src/logger')
 
 const SALT_WORK_FACTOR = 10
 
+const Repository = require('./repositories')
+
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({
   user_id         : String,
@@ -16,6 +18,7 @@ var UserSchema = new mongoose.Schema({
   name            : { type: String, required: true },
   avatar_url      : String,
   html_url        : String,
+  repositories    : [{ type: mongoose.Schema.ObjectId, ref: 'Repository' }],
   created_at      : Date,
   updated_at      : { type: Date, default: Date.now }
 })
@@ -53,13 +56,20 @@ UserSchema.statics.authenticate = function (gitUser, cb) {
 }
 
 UserSchema.statics.getUser = function (user_id, callback) {
-  this.findById(user_id, (err, user) => {
+  this.findById(user_id).populate('repositories').exec((err, user) => {
     if (err) throw err
 
     if (!user) throw new Error('User not found')
 
     callback(user)
   })
+  // this.findById(user_id, (err, user) => {
+  //   if (err) throw err
+  //
+  //   if (!user) throw new Error('User not found')
+  //
+  //   callback(user)
+  // })
 }
 
 // Create a static getUsers method to return user data from the db
