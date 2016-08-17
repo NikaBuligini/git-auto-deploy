@@ -25,6 +25,7 @@ function notAuthenticated(req, res, next) {
 }
 
 router.get('/', authenticated, (req, res) => {
+  console.log('Router', User)
   User.getUser(req.session.user_id, (user) => {
     console.log(user)
     if (user.repositories.length == 0) {
@@ -54,6 +55,12 @@ router.get('/', authenticated, (req, res) => {
   })
 })
 
+router.get('/test', (req, res) => {
+  Repository.dump()
+
+  res.send('Hello World')
+})
+
 router.get('/auth/login', notAuthenticated, (req, res) => {
   res.render('./pages/login', { message: res.locals.message })
 })
@@ -72,7 +79,7 @@ router.get('/auth/callback', (req, res) => {
 
   GitHubHelper.exchangeToken(req.query.code, req.query.state, (err, user) => {
     if (err) throw err
-
+    console.log('RegisteredUser', user)
     // Regenerate session when signing in
     return req.session.regenerate(() => {
       // Store the user's primary key

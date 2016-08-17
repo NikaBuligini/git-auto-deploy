@@ -50,6 +50,12 @@ app.disable('etag')
 // Connect to our mongo database
 mongoose.connect('mongodb://localhost/git-auto-deploy')
 
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', () => {
+  console.log('connected to mongodb')
+})
+
 app.use('/', require('./routes'))
 // Index Route
 // app.get('/', routes.index)

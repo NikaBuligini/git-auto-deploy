@@ -2,10 +2,8 @@
 
 const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema
-
 // Create a new schema for our repository data
-var RepositorySchema = new Schema({
+var RepositorySchema = new mongoose.Schema({
   repo_id         : String,
   github_repo_id  : { type: String, required: true, index: { unique: true } },
   full_name       : String,
@@ -23,8 +21,6 @@ var RepositorySchema = new Schema({
 })
 
 RepositorySchema.pre('save', function (next) {
-  let repo = this
-
   // get the current date
   var currentDate = new Date()
 
@@ -34,6 +30,24 @@ RepositorySchema.pre('save', function (next) {
   // if created_at doesn't exist, add to that field
   if (!this.created_at) this.created_at = currentDate
 })
+
+RepositorySchema.statics = {
+  /**
+   * Test method
+   *
+   * @api private
+   */
+  dump: function() {
+    let repo = new this()
+    repo.github_repo_id = '1'
+
+    repo.save(function(err, repository) {
+      if (err) console.log(err.message)
+
+      console.log(repository)
+    })
+  }
+}
 
 // Return a Repository model based upon the defined schema
 module.exports = mongoose.model('Repository', RepositorySchema)
