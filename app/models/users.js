@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const request = require('request')
-const logger = require('../src/logger')
+const logger = require('../utils/logger')
 
 const SALT_WORK_FACTOR = 10
 

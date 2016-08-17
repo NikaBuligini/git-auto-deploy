@@ -2,9 +2,11 @@
 
 const GitHubApi = require("github")
 const request = require('request')
-const logger = require('../src/logger')
+const logger = require('./logger')
+const debug = require('debug')('worker')
 
-const User = require('./users')
+const users = require('../controllers/users.controller')
+debug('github %s', users)
 
 const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
 
@@ -66,7 +68,9 @@ var GitHubHelper = class GitHubHelper {
       this.github.users.get({}, (err, user) => {
         if (err) throw err
 
-        User.authenticate({
+        console.log(users)
+        console.log(users.authenticate)
+        users.authenticate({
           access_token: body.access_token,
           github_user_id: user.id,
           email: user.email,

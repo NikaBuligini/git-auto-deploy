@@ -29,7 +29,7 @@ app.use(session({
 }))
 
 // Set jsx as the templating engine
-app.set('views', path.resolve(__dirname, 'views'))
+app.set('views', path.resolve(__dirname, 'app/views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
@@ -57,11 +57,6 @@ db.once('open', () => {
 })
 
 app.use('/', require('./routes'))
-// Index Route
-// app.get('/', routes.index)
-
-// Page Route
-// app.get('/page/:page/:skip', routes.page)
 
 // Set /public as our static content dir
 app.use('/', express.static(__dirname + '/public/'))

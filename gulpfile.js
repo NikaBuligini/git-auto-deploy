@@ -26,8 +26,8 @@ gulp.task('start', ['sass:watch'], () => {
   nodemon({
     script: 'server.js',
     ext: 'js',
-    env: { 'NODE_ENV': 'development' },
-    watch: ['server.js', 'routes.js', 'models/*.js', 'src/logger.js']
+    env: { 'NODE_ENV': 'development', 'DEBUG': 'http,worker' },
+    watch: ['server.js', 'routes.js', 'app/*.js']
   })
 })
 

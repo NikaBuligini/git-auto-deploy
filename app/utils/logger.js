@@ -3,7 +3,7 @@
 const winston = require('winston')
 const fs = require('fs')
 
-let dir = __dirname + '/../logs'
+let dir = __base + '/logs'
 
 // make directory if it doesn't exists
 if (!fs.existsSync(dir)) fs.mkdirSync(dir)
