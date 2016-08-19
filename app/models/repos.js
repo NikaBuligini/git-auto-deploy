@@ -4,9 +4,14 @@ const mongoose = require('mongoose')
 
 // Create a new schema for our repository data
 var RepositorySchema = new mongoose.Schema({
-  repo_id         : String,
   github_repo_id  : { type: String, required: true, index: { unique: true } },
+  name            : String,
   full_name       : String,
+  owner_id        : String,
+  owner_name      : String,
+  owner_avatar_url: String,
+  owner_html_url  : String,
+  owner_type      : String,
   private         : Boolean,
   html_url        : String,
   description     : String,
@@ -29,6 +34,8 @@ RepositorySchema.pre('save', function (next) {
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at) this.created_at = currentDate
+
+  next()
 })
 
 RepositorySchema.statics = {
@@ -37,15 +44,11 @@ RepositorySchema.statics = {
    *
    * @api private
    */
-  dump: function() {
+  dump() {
     let repo = new this()
     repo.github_repo_id = '1'
 
-    repo.save(function(err, repository) {
-      if (err) console.log(err.message)
-
-      console.log(repository)
-    })
+    repo.save((err) => { if (err) throw err })
   }
 }
 

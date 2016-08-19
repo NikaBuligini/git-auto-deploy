@@ -5,15 +5,30 @@ const GitHubHelper = require('../utils/github')
 
 const Repository = require('../models/repos')
 
-var ReposController = class ReposController {
-  static dump(req, res) {
+module.exports = {
+  dump: function(req, res) {
     Repository.dump()
     res.send('Hello World')
-  }
+  },
 
-  static test() {
-    return 'success'
+  saveRepositories: function(user, callback) {
+    GitHubHelper.repositories(user.access_token, (repos) => {
+      let repositories = []
+
+      repos.forEach((val) => {
+        let repo = new Repository(val)
+        repo.github_repo_id = val.id
+        repo.owner_id = val.owner.id
+        repo.owner_name = val.owner.login
+        repo.owner_avatar_url = val.owner.avatar_url
+        repo.owner_html_url = val.owner.html_url
+        repo.owner_type = val.owner.type
+        repo.save(err => { if (err) console.log(err.message) })
+        user.repositories.push(repo._id)
+        repositories.push(repo)
+      })
+
+      callback(repositories)
+    })
   }
 }
-
-module.exports = ReposController

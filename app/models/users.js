@@ -32,6 +32,8 @@ UserSchema.pre('save', function (next) {
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at) this.created_at = currentDate
+
+  next()
 })
 
 UserSchema.statics = {
@@ -42,21 +44,37 @@ UserSchema.statics = {
    * @param {callback} fired after execution
    * @api private
    */
-  authenticate: function (gitUser, cb) {
+  authenticate: function (gitUser, callback) {
     this.findOne({ github_user_id: gitUser.github_user_id })
       .populate('repositories')
       .exec((err, user) => {
         if (err) throw err
-        console.log('UserExists', user)
+
         if (user) {
           user.access_token = gitUser.access_token
-          user.save(err => { if (err) return next(err) })
+          user.save(err => { if (err) throw err })
         } else {
           user = new this(gitUser)
-          user.save(err => { if (err) throw err })
+          user.save((err) => { if (err) throw err })
         }
 
-        cb(null, user)
+        callback(user)
+      })
+  },
+
+  /**
+   * Get first user
+   *
+   * @param {callback} fired after execution
+   * @api private
+   */
+  getFirstUser: function (callback) {
+    this.findOne({})
+      .populate('repositories')
+      .exec((err, user) => {
+        if (err) throw err
+        if (!user) throw new Error('User not found')
+        callback(user)
       })
   },
 
@@ -68,20 +86,13 @@ UserSchema.statics = {
    * @api private
    */
   getUser: function (user_id, callback) {
-    this.findById(user_id).populate('repositories').exec((err, user) => {
-      if (err) throw err
-
-      if (!user) throw new Error('User not found')
-
-      callback(user)
-    })
-    // this.findById(user_id, (err, user) => {
-    //   if (err) throw err
-    //
-    //   if (!user) throw new Error('User not found')
-    //
-    //   callback(user)
-    // })
+    this.findById(user_id)
+      .populate('repositories')
+      .exec((err, user) => {
+        if (err) throw err
+        if (!user) throw new Error('User not found')
+        callback(user)
+      })
   },
 
   /**

@@ -19,6 +19,12 @@ class Login extends React.Component {
             <i className="fa fa-github"></i>
             Sign in
           </a>
+          <div>
+            <a className="github-login" href="/auth/fake-login">
+              <i className="fa fa-github"></i>
+              Fake login
+            </a>
+          </div>
         </div>
       </AuthLayout>
     )

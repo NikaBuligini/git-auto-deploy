@@ -3,10 +3,6 @@
 const GitHubApi = require("github")
 const request = require('request')
 const logger = require('./logger')
-const debug = require('debug')('worker')
-
-const users = require('../controllers/users.controller')
-debug('github %s', users)
 
 const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
 
@@ -47,7 +43,7 @@ var GitHubHelper = class GitHubHelper {
     return `${GITHUB_AUTH}?client_id=${options.client_id}&scope=${options.scope.join(' ')}&state=${state}`
   }
 
-  static exchangeToken(code, state, cb) {
+  static exchangeToken(code, state, callback) {
     this.initGitHubApi()
     request.post({
       url: 'https://github.com/login/oauth/access_token',
@@ -65,20 +61,16 @@ var GitHubHelper = class GitHubHelper {
         token: body.access_token
       })
 
-      this.github.users.get({}, (err, user) => {
-        if (err) throw err
-
-        console.log(users)
-        console.log(users.authenticate)
-        users.authenticate({
+      this.github.users.get({}, (err, gitUser) => {
+        callback(err, {
           access_token: body.access_token,
-          github_user_id: user.id,
-          email: user.email,
-          username: user.login,
-          name: user.name,
-          avatar_url: user.avatar_url,
-          html_url: user.html_url
-        }, cb)
+          github_user_id: gitUser.id,
+          email: gitUser.email,
+          username: gitUser.login,
+          name: gitUser.name,
+          avatar_url: gitUser.avatar_url,
+          html_url: gitUser.html_url
+        })
       })
     })
   }
