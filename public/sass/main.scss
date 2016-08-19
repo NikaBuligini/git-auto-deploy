@@ -5,6 +5,12 @@ body {
   background-color: #f5f8fa;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 svg.octopus {
   position: absolute;
   width: 24pt;
@@ -43,7 +49,7 @@ svg.octopus:hover g {
 
 .topbar {
   border-bottom: 1px solid #e1e8ed;
-  position: fixed;
+  position: relative;
   top: 0;
   right: 0;
   left: 0;
@@ -52,7 +58,8 @@ svg.octopus:hover g {
 }
 .global-nav {
   background-color: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,.14),0 3px 1px -2px
+    rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
   height: 46px;
   position: relative;
   width: 100%;
@@ -63,6 +70,12 @@ svg.octopus:hover g {
     width: auto;
     height: 46px;
   }
+
+  img.profile {
+    width: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
 }
 
 .page-outer {
@@ -71,7 +84,7 @@ svg.octopus:hover g {
   .wrapper {
     margin: 0 auto;
     min-height: 0;
-    padding: 56px 23px 15px;
+    padding: 30px 23px;
     position: relative;
     width: 890px;
   }
@@ -190,4 +203,37 @@ pre.badcode {
   color: #c00;
   background-color: #fff8f8;
   border-color: #fff0f0;
+}
+
+.card {
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px
+    rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.gems {
+  li {
+    font-size: 13pt;
+    line-height: 34px;
+    padding: 0 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #e7ebf3;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+  }
+
+  li:hover {
+    background-color: #f7f8fb
+  }
+
+  .tools {
+    float: right;
+    height: 100%;
+    line-height: 35px;
+    font-size: 11pt;
+  }
 }

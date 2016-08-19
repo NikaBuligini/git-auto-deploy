@@ -5,6 +5,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const http = require('http')
 const mongoose = require('mongoose')
+const promise = require('bluebird')
 const path = require('path')
 const dotenv = require('dotenv').config()
 
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 app.disable('etag')
 
 // Connect to our mongo database
+mongoose.Promise = promise;
 mongoose.connect('mongodb://localhost/git-auto-deploy')
 
 var db = mongoose.connection

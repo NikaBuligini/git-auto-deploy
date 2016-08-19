@@ -13,6 +13,7 @@ class Navigation extends React.Component {
           <div className="container">
             <Octopus />
             <div className="user-panel">
+              <img className="profile" src={this.props.user.avatar_url} />
               <span className="username">{this.props.user.name}</span>
               <a href="/auth/logout" className="logout">
                 <i className="fa fa-sign-out" aria-hidden="true" title="Sign out"></i>
