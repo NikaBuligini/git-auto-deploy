@@ -1,10 +1,14 @@
+'use strict'
+
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
-// const config = require('./config')
+const dotenv = require('dotenv').config()
+
+global.__base = __dirname + '/'
 
 // Create an express instance and set a port variable
 const app = express()
@@ -25,7 +29,7 @@ app.use(session({
 }))
 
 // Set jsx as the templating engine
-app.set('views', path.resolve(__dirname, 'views'))
+app.set('views', path.resolve(__dirname, 'app/views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
@@ -46,12 +50,13 @@ app.disable('etag')
 // Connect to our mongo database
 mongoose.connect('mongodb://localhost/git-auto-deploy')
 
-app.use('/', require('./routes'))
-// Index Route
-// app.get('/', routes.index)
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', () => {
+  console.log('connected to mongodb')
+})
 
-// Page Route
-// app.get('/page/:page/:skip', routes.page)
+app.use('/', require('./routes'))
 
 // Set /public as our static content dir
 app.use('/', express.static(__dirname + '/public/'))

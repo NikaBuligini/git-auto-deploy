@@ -3,6 +3,7 @@ import React from 'react'
 import AuthLayout from '../layouts/auth'
 import Octopus from '../partials/octopus-logo'
 import Alert from '../util/alert'
+import Input from '../util/input'
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,13 +15,16 @@ class Login extends React.Component {
         <div className="login">
           <Octopus />
           <Alert message={this.props.message} />
-          <form method="post" action="/auth/login" className="login-form">
-            <div className="form-group">
-              <input type="password" name="pswd"
-                className="form-control password" placeholder="Password" />
-            </div>
-            <button type="submit" className="b-btn">Log in</button>
-          </form>
+          <a className="github-login" href="/auth/github">
+            <i className="fa fa-github"></i>
+            Sign in
+          </a>
+          <div>
+            <a className="github-login" href="/auth/fake-login">
+              <i className="fa fa-github"></i>
+              Fake login
+            </a>
+          </div>
         </div>
       </AuthLayout>
     )
