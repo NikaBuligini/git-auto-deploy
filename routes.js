@@ -1,21 +1,21 @@
 'use strict'
 
 const express = require('express')
-const session = require('express-session')
 const router = express.Router()
-const request = require('request')
-const logger = require('./app/utils/logger')
+// const logger = require('./app/utils/logger')
 // const debug = require('debug')('worker')
+require('express-session')
+require('request')
 
 const users = require('./app/controllers/users.controller')
 const repos = require('./app/controllers/repos.controller')
 
-function authenticated(req, res, next) {
+function authenticated (req, res, next) {
   if (req.session.user_id) return next()
   res.redirect('/auth/login')
 }
 
-function notAuthenticated(req, res, next) {
+function notAuthenticated (req, res, next) {
   if (req.session.user_id) {
     req.session.error = 'Please login'
     return res.redirect('/')
@@ -23,8 +23,6 @@ function notAuthenticated(req, res, next) {
 
   next()
 }
-
-router.get('/test', repos.dump)
 
 router.get('/', authenticated, users.homepage)
 router.get('/auth/login', notAuthenticated, users.showLogin)

@@ -7,9 +7,9 @@ const http = require('http')
 const mongoose = require('mongoose')
 const promise = require('bluebird')
 const path = require('path')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 
-global.__base = __dirname + '/'
+global.__base = path.join(__dirname, '/')
 
 // Create an express instance and set a port variable
 const app = express()
@@ -34,7 +34,7 @@ app.set('views', path.resolve(__dirname, 'app/views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   var err = req.session.error
   var msg = req.session.success
   delete req.session.error
@@ -49,7 +49,7 @@ app.use(function(req, res, next){
 app.disable('etag')
 
 // Connect to our mongo database
-mongoose.Promise = promise;
+mongoose.Promise = promise
 mongoose.connect('mongodb://localhost/git-auto-deploy')
 
 var db = mongoose.connection
@@ -61,7 +61,7 @@ db.once('open', () => {
 app.use('/', require('./routes'))
 
 // Set /public as our static content dir
-app.use('/', express.static(__dirname + '/public/'))
+app.use('/', express.static(path.join(__dirname, '/public/')))
 
 // Fire it up (start our server)
 http.createServer(app).listen(port, () => {

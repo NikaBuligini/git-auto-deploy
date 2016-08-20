@@ -1,10 +1,7 @@
 import React from 'react'
 
 class AuthLayout extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
+  render () {
     return (
       <html lang="en">
         <head>

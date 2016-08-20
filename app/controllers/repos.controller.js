@@ -1,17 +1,11 @@
 'use strict'
 
-const mongoose = require('mongoose')
 const GitHubHelper = require('../utils/github')
 
 const Repository = require('../models/repos')
 
 module.exports = {
-  dump: function(req, res) {
-    Repository.dump()
-    res.send('Hello World')
-  },
-
-  saveRepositories: function(user, callback) {
+  saveRepositories (user, callback) {
     GitHubHelper.repositories(user.access_token, (repos) => {
       let repositories = []
 

@@ -1,6 +1,5 @@
 'use strict'
 
-const mongoose = require('mongoose')
 const GitHubHelper = require('../utils/github')
 
 const User = require('../models/users')
@@ -8,18 +7,18 @@ const User = require('../models/users')
 const repos = require('./repos.controller')
 
 module.exports = {
-  showLogin: function(req, res) {
+  showLogin (req, res) {
     res.render('./pages/login', { message: res.locals.message })
   },
 
-  redirectToGithub: function(req, res) {
+  redirectToGithub (req, res) {
     let state = Math.random().toString(36).substring(7) // random string
     req.session.github_state = state
     res.redirect(GitHubHelper.authUrl(state))
   },
 
-  githubCallback: function(req, res) {
-    if (typeof req.query.state === 'undefined' || req.query.state != req.session.github_state) {
+  githubCallback (req, res) {
+    if (typeof req.query.state === 'undefined' || req.query.state !== req.session.github_state) {
       req.session.error = 'invalid state token'
       return res.redirect('/')
     }
@@ -40,7 +39,7 @@ module.exports = {
     })
   },
 
-  fakeLogin: function(req, res) {
+  fakeLogin (req, res) {
     User.getFirstUser((user) => {
       return req.session.regenerate(() => {
         req.session.user_id = user._id
@@ -49,15 +48,15 @@ module.exports = {
     })
   },
 
-  logout: function(req, res) {
+  logout (req, res) {
     // destroy the user's session to log them out
     // will be re-created next request
     req.session.destroy(() => res.redirect('/'))
   },
 
-  homepage: function(req, res) {
+  homepage (req, res) {
     User.getUser(req.session.user_id, (user) => {
-      if (user.repositories.length == 0) {
+      if (user.repositories.length === 0) {
         repos.saveRepositories(user, (repos) => {
           user.save()
           res.render('./pages/home', {

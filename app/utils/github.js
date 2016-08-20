@@ -1,13 +1,12 @@
 'use strict'
 
-const GitHubApi = require("github")
+const GitHubApi = require('github')
 const request = require('request')
-const logger = require('./logger')
 
 const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
 
 var GitHubHelper = class GitHubHelper {
-  static initGitHubApi(access_token) {
+  static initGitHubApi (accessToken) {
     this.github = new GitHubApi({
         // optional
         // debug: true,
@@ -26,15 +25,15 @@ var GitHubHelper = class GitHubHelper {
       secret: process.env.GITHUB_SECRET
     })
 
-    if (access_token) {
+    if (accessToken) {
       this.github.authenticate({
-        type: "oauth",
-        token: access_token
+        type: 'oauth',
+        token: accessToken
       })
     }
   }
 
-  static authUrl(state) {
+  static authUrl (state) {
     let options = {
       client_id: process.env.GITHUB_CLIENT_ID,
       scope: ['user', 'repo', 'admin:repo_hook', 'gist']
@@ -43,7 +42,7 @@ var GitHubHelper = class GitHubHelper {
     return `${GITHUB_AUTH}?client_id=${options.client_id}&scope=${options.scope.join(' ')}&state=${state}`
   }
 
-  static exchangeToken(code, state, callback) {
+  static exchangeToken (code, state, callback) {
     this.initGitHubApi()
     request.post({
       url: 'https://github.com/login/oauth/access_token',
@@ -54,10 +53,12 @@ var GitHubHelper = class GitHubHelper {
         state: state
       }
     }, (err, res, body) => {
-      body = JSON.parse('{"' + decodeURI(body).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+      if (err) throw err
+
+      body = JSON.parse('{"' + decodeURI(body).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
 
       this.github.authenticate({
-        type: "oauth",
+        type: 'oauth',
         token: body.access_token
       })
 
@@ -75,8 +76,8 @@ var GitHubHelper = class GitHubHelper {
     })
   }
 
-  static repositories(access_token, callback) {
-    this.initGitHubApi(access_token)
+  static repositories (accessToken, callback) {
+    this.initGitHubApi(accessToken)
 
     this.github.repos.getAll({}, (err, repos) => {
       if (err) throw err

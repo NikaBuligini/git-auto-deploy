@@ -1,7 +1,7 @@
 import React from 'react'
 
 class CardComponent extends React.Component {
-  render() {
+  render () {
     return (
       <div className={'card ' + (this.props.className || '')}>{this.props.children}</div>
     )

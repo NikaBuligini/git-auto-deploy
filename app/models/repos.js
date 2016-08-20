@@ -4,25 +4,25 @@ const mongoose = require('mongoose')
 
 // Create a new schema for our repository data
 var RepositorySchema = new mongoose.Schema({
-  github_repo_id  : { type: String, required: true, index: { unique: true } },
-  name            : String,
-  full_name       : String,
-  owner_id        : String,
-  owner_name      : String,
+  github_repo_id: { type: String, required: true, index: { unique: true } },
+  name: String,
+  full_name: String,
+  owner_id: String,
+  owner_name: String,
   owner_avatar_url: String,
-  owner_html_url  : String,
-  owner_type      : String,
-  private         : Boolean,
-  html_url        : String,
-  description     : String,
-  fork            : Boolean,
-  url             : String,
-  tags_url        : String,
-  pushed_at       : Date,
-  clone_url       : String,
-  default_branch  : String,
-  created_at      : Date,
-  updated_at      : { type: Date, default: Date.now }
+  owner_html_url: String,
+  owner_type: String,
+  private: Boolean,
+  html_url: String,
+  description: String,
+  fork: Boolean,
+  url: String,
+  tags_url: String,
+  pushed_at: Date,
+  clone_url: String,
+  default_branch: String,
+  created_at: Date,
+  updated_at: { type: Date, default: Date.now }
 })
 
 RepositorySchema.pre('save', function (next) {
@@ -38,19 +38,7 @@ RepositorySchema.pre('save', function (next) {
   next()
 })
 
-RepositorySchema.statics = {
-  /**
-   * Test method
-   *
-   * @api private
-   */
-  dump() {
-    let repo = new this()
-    repo.github_repo_id = '1'
-
-    repo.save((err) => { if (err) throw err })
-  }
-}
+RepositorySchema.statics = {}
 
 // Return a Repository model based upon the defined schema
 module.exports = mongoose.model('Repository', RepositorySchema)

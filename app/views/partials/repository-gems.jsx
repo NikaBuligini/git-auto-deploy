@@ -3,7 +3,7 @@ import React from 'react'
 import Card from './card'
 
 class RepositoryGems extends React.Component {
-  render() {
+  render () {
     return (
       <Card className="gems">
         <ul>

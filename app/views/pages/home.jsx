@@ -3,15 +3,12 @@ import React from 'react'
 import DefaultLayout from '../layouts/default'
 import RepositoryGems from '../partials/repository-gems'
 import Pre from '../util/print'
-const GitHubHelper = require(__base + 'app/utils/github')
 
 class HomeComponent extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
+  render () {
     return (
       <DefaultLayout title={this.props.title} user={this.props.user}>
+        <div id="app"></div>
         <RepositoryGems gems={this.props.repos} />
         <div>
           <ul>

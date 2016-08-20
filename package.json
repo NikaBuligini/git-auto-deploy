@@ -5,10 +5,11 @@
   "main": "server.js",
   "scripts": {
     "build": "gulp build",
-    "watch": "watchify app.js -o public/js/bundle.js -v",
-    "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
+    "watch": "browserify app/react/main.js -o public/js/bundle.js -t [ babelify --presets [ es2015 react ] ]",
+    "browserify": "browserify app/react/main.js -o public/js/bundle.js -t [ babelify --presets [ es2015 react ] ]",
     "start": "gulp start --silent",
-    "serve": "npm run build & node server.js",
+    "start:prod": "npm run build & node server.js",
+    "lint": "./node_modules/.bin/eslint . --ext .jsx,.js",
     "test": "mocha \"test/*.spec.js\""
   },
   "repository": {
@@ -30,30 +31,43 @@
     "node-jsx": "^0.13.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
+    "react-router": "^2.6.1",
     "request": "^2.74.0",
     "socket.io": "^1.4.8",
     "winston": "^2.2.0",
     "winston-daily-rotate-file": "^1.2.0"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "debug": "^2.2.0",
+    "eslint": "^3.3.1",
+    "eslint-config-standard": "^6.0.0-beta.3",
+    "eslint-plugin-mocha": "^4.3.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-react": "^6.1.2",
+    "eslint-plugin-standard": "^2.0.0",
     "expect": "^1.20.2",
     "font-awesome": "^4.6.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^3.0.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.2.1",
-    "reactify": "^1.1.1",
     "uglify-js": "^2.7.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   },
   "browserify": {
     "transform": [
-      "reactify"
+      "babelify"
     ]
   }
 }
