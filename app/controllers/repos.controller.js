@@ -2,6 +2,7 @@
 
 const GitHubHelper = require('../utils/github')
 
+const User = require('../models/users')
 const Repository = require('../models/repos')
 
 module.exports = {
@@ -23,6 +24,14 @@ module.exports = {
       })
 
       callback(repositories)
+    })
+  },
+
+  gitHubRepos (req, res) {
+    User.getUser(req.session.user_id, (user) => {
+      GitHubHelper.repositories(user.access_token, (repos) => {
+        res.send(repos)
+      })
     })
   }
 }

@@ -9,6 +9,7 @@ const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 const eslint = require('gulp-eslint')
 
+const notifier = require('node-notifier')
 const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 
@@ -37,7 +38,13 @@ function bundleJs (bundler) {
   return bundler
     .bundle()
     .on('error', function (err) {
-      console.error(err)
+      console.error(err.stack)
+
+      notifier.notify({
+        'title': 'Compile Error',
+        'message': err.message
+      })
+
       this.emit('end')
     })
     .pipe(source('bundle.js'))

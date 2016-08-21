@@ -165,6 +165,22 @@ svg.octopus:hover g {
   .logout {
     line-height: 46px;
   }
+
+  .dropdown {
+    display: inline-block;
+    float: none !important;
+    margin: 0;
+
+    ul {
+      margin: 5px -5px 0 0;
+    }
+  }
+
+  .dropdown.open {
+    ul {
+      display: block;
+    }
+  }
 }
 
 .login-form {
@@ -209,6 +225,7 @@ pre.badcode {
   padding: 10px 15px;
   background-color: #fff;
   border-radius: 3px;
+  margin-bottom: 25px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px
     rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
 }
@@ -235,5 +252,41 @@ pre.badcode {
     height: 100%;
     line-height: 35px;
     font-size: 11pt;
+  }
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+  z-index: 2;
+  position: relative;;
+  left: 50%;
+  width: 35px;
+  height: 35px;
+
+  & .path {
+    stroke: #190321;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
   }
 }
