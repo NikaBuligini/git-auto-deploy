@@ -7,7 +7,9 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import reducer from './reducers'
 
-import Home from './components/home'
+import App from './components/app'
+import Dashboard from './components/dashboard'
+import CreateNewApp from './components/create-app'
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -24,8 +26,9 @@ ReactDOM.render(
   <Provider store={store}>
     { /* Tell the Router to use our enhanced history */ }
     <Router history={history}>
-      <Route path="/" component={Home}>
-        {/* <Route path="path" component={Component}/> */}
+      <Route path="/" component={App}>
+        <Route path="dashboard" component={Dashboard} />
+        <Route path="create" component={CreateNewApp} />
       </Route>
     </Router>
   </Provider>,

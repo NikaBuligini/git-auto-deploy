@@ -36,12 +36,14 @@ export default React.createClass({
     }
 
     return (
-      <div className={cls}>
-        <ul>
-          {this.state.repositories.map((repo, index) => {
-            return <li key={index}>{repo.name}</li>
-          })}
-        </ul>
+      <div>
+        <div className={cls}>
+          <ul>
+            {this.state.repositories.map((repo, index) => {
+              return <li key={index}>{repo.name}</li>
+            })}
+          </ul>
+        </div>
       </div>
     )
   }

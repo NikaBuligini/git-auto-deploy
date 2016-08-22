@@ -12,6 +12,8 @@ const users = require('./app/controllers/users.controller')
 const repos = require('./app/controllers/repos.controller')
 
 router.get('/', auth.notAuthenticated, users.homepage)
+router.get('/dashboard', auth.notAuthenticated, users.homepage)
+router.get('/create', auth.notAuthenticated, users.homepage)
 router.get('/auth/login', auth.authenticated, users.showLogin)
 router.get('/auth/github', auth.authenticated, users.redirectToGithub)
 router.get('/auth/callback', users.githubCallback)
