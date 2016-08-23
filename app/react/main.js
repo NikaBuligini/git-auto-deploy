@@ -8,8 +8,8 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import reducer from './reducers'
 
 import App from './components/app'
-import Dashboard from './components/dashboard'
 import CreateNewApp from './components/create-app'
+import Repo from './components/repo'
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -27,8 +27,8 @@ ReactDOM.render(
     { /* Tell the Router to use our enhanced history */ }
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route path="dashboard" component={Dashboard} />
         <Route path="create" component={CreateNewApp} />
+        <Route path="repo/:repoName" component={Repo} />
       </Route>
     </Router>
   </Provider>,

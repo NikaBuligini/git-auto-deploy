@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router'
 import $ from 'jquery'
 
 import Loading from '../partials/loading'
@@ -7,18 +6,17 @@ import Loading from '../partials/loading'
 export default React.createClass({
   getInitialState () {
     return {
-      source: '/api/app',
+      source: '/api/app/' + this.props.params.repoName,
       isLoaded: false,
-      repositories: undefined
+      repository: undefined
     }
   },
 
   componentDidMount () {
     this.serverRequest = $.get(this.state.source, (result) => {
-      console.log(result)
       this.setState({
         isLoaded: true,
-        repositories: result
+        repository: result
       })
     })
   },
@@ -30,7 +28,7 @@ export default React.createClass({
   render () {
     let cls = 'gems card'
 
-    if (typeof this.state.repositories === 'undefined') {
+    if (!this.state.isLoaded) {
       return (
         <Loading cls={cls} />
       )
@@ -38,15 +36,8 @@ export default React.createClass({
 
     return (
       <div className={cls}>
-        <ul>
-          {this.state.repositories.map((repo, index) => {
-            return (
-              <li key={index}>
-                <Link to={'/repo/' + repo.name} className="new-app-link">{repo.name}</Link>
-              </li>
-            )
-          })}
-        </ul>
+        <h3>{this.state.repository.name}</h3>
+        <p>{this.state.repository.description}</p>
       </div>
     )
   }

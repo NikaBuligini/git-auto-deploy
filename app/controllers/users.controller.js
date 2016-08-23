@@ -4,8 +4,6 @@ const GitHubHelper = require('../utils/github')
 
 const User = require('../models/users')
 
-const repos = require('./repos.controller')
-
 module.exports = {
   showLogin (req, res) {
     res.render('./pages/login', { message: res.locals.message })
@@ -56,22 +54,10 @@ module.exports = {
 
   homepage (req, res) {
     User.getUser(req.session.user_id, (user) => {
-      if (user.repositories.length === 0) {
-        repos.saveRepositories(user, (repos) => {
-          user.save()
-          res.render('./pages/home', {
-            title: 'React test',
-            user: user,
-            repos: repos
-          })
-        })
-      } else {
-        res.render('./pages/home', {
-          title: 'React test',
-          user: user,
-          repos: user.repositories
-        })
-      }
+      res.render('./pages/home', {
+        title: 'React test',
+        user: user
+      })
     })
   }
 }

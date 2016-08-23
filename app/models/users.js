@@ -64,7 +64,7 @@ UserSchema.statics = {
    */
   getFirstUser: function (callback) {
     this.findOne({})
-      .populate('repositories')
+      // .populate('repositories')
       .exec((err, user) => {
         if (err) throw err
         if (!user) throw new Error('User not found')
@@ -81,12 +81,23 @@ UserSchema.statics = {
    */
   getUser: function (userId, callback) {
     this.findById(userId)
-      .populate('repositories')
+      // .populate('repositories')
       .exec((err, user) => {
         if (err) throw err
         if (!user) throw new Error('User not found')
         callback(user)
       })
+  },
+
+  /**
+   * Get user populated by repositories
+   *
+   * @param {rawUser} user model without repositories
+   * @param {callback} fired after population
+   * @api private
+   */
+  populateWithRepositories: function (rawUser, callback) {
+    this.populate(rawUser, 'repositories', callback)
   },
 
   /**

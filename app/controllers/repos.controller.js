@@ -30,21 +30,38 @@ module.exports = {
   gitHubRepos (req, res) {
     User.getUser(req.session.user_id, (user) => {
       GitHubHelper.repositories(user.access_token, (repos) => {
-        res.send(repos)
+        res.json(repos)
       })
     })
   },
 
   createApp (req, res) {
     User.getUser(req.session.user_id, (user) => {
-      req.body.name = req.body.name.toString().toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '')             // Trim - from end of text
+      Repository.createApp(req.body.name, req.body.description, (repo) => {
+        user.repositories.push(repo._id)
+        user.save()
 
-      res.send(req.body.name)
+        res.redirect('/')
+      })
+    })
+  },
+
+  installedApps (req, res) {
+    User.getUser(req.session.user_id, (rawUser) => {
+      User.populateWithRepositories(rawUser, (err, user) => {
+        if (err) throw err
+        res.json(user.repositories)
+      })
+    })
+  },
+
+  appByName (req, res) {
+    User.getUser(req.session.user_id, (rawUser) => {
+      User.populateWithRepositories(rawUser, (err, user) => {
+        if (err) throw err
+        let result = user.repositories.filter(val => val.name === req.params.name)
+        res.json(result.length > 0 ? result[0] : {})
+      })
     })
   }
 }
