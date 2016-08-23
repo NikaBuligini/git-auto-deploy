@@ -8,7 +8,7 @@ export default React.createClass({
           <div className="form-group">
             <label htmlFor="name">Project name</label>
             <input id="name" type="text" name="name" className="form-control"
-              placeholder="my-project-name" />
+              placeholder="my-project-name" autoComplete="false" />
           </div>
           <div className="form-group">
             <label htmlFor="description">Project description</label>
