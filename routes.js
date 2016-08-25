@@ -19,7 +19,7 @@ router.get('/auth/github', auth.authenticated, users.redirectToGithub)
 router.get('/auth/callback', users.githubCallback)
 router.get('/auth/fake-login', users.fakeLogin)
 router.get('/auth/logout', users.logout)
-router.get('/repo/:repoName', auth.notAuthenticated, users.homepage)
+router.get('/apps/:repoName', auth.notAuthenticated, users.homepage)
 
 router.get('/api/repos', repos.gitHubRepos)
 router.get('/api/app/:name', repos.appByName)

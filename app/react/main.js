@@ -28,7 +28,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <Route path="create" component={CreateNewApp} />
-        <Route path="repo/:repoName" component={Repo} />
+        <Route path="apps/:repoName" component={Repo} />
       </Route>
     </Router>
   </Provider>,

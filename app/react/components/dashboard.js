@@ -42,7 +42,7 @@ export default React.createClass({
           {this.state.repositories.map((repo, index) => {
             return (
               <li key={index}>
-                <Link to={'/repo/' + repo.name} className="new-app-link">{repo.name}</Link>
+                <Link to={'/apps/' + repo.name} className="new-app-link">{repo.name}</Link>
               </li>
             )
           })}
