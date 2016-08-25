@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({
   user_id: String,
-  github_user_id: { type: String, required: true, index: { unique: true } },
+  github_user_id: { type: Number, required: true, index: { unique: true } },
   access_token: { type: String },
   email: { type: String, required: true, index: { unique: true } },
   username: { type: String, required: true, index: { unique: true } },

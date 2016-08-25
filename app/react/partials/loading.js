@@ -2,7 +2,7 @@ import React from 'react'
 
 export default React.createClass({
   render () {
-    let cls = this.props.cls || ''
+    let cls = this.props.cls || 'default-loading'
 
     return (
       <div className={cls}>

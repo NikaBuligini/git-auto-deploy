@@ -281,6 +281,13 @@ pre.badcode {
   }
 }
 
+.default-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -18px;
+}
+
 .spinner {
   animation: rotate 2s linear infinite;
   z-index: 2;
@@ -321,13 +328,21 @@ pre.badcode {
   padding: 15px 5px;
 }
 
+.app.card {
+  min-height: 400px;
+
+  .repositories-container {
+    min-height: 320px;
+  }
+}
+
 .tabs-container {
   .tabs {
     margin-bottom: 10px;
     box-shadow: inset 0 -1px 0 #e7ebf3;
     width: 100%;
 
-    li {
+    a {
       display: inline-block;
       position: relative;
       font-size: 15px;
@@ -336,8 +351,13 @@ pre.badcode {
       cursor: pointer;
     }
 
-    li:hover::after,
-    .ReactTabs__Tab--selected::after {
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    a:hover::after,
+    .active::after {
       position: absolute;
       left: 0;
       width: 100%;
@@ -346,12 +366,12 @@ pre.badcode {
       content: '';
     }
 
-    li:hover::after {
+    a:hover::after {
       border-bottom: 1px solid #cfd7e6;
     }
 
-    .ReactTabs__Tab--selected::after,
-    .ReactTabs__Tab--selected:hover::after {
+    .active::after,
+    .active:hover::after {
       border-bottom: 1px solid #79589f;
     }
   }

@@ -30,7 +30,10 @@ module.exports = {
   gitHubRepos (req, res) {
     User.getUser(req.session.user_id, (user) => {
       GitHubHelper.repositories(user.access_token, (repos) => {
-        res.json(repos)
+        res.json({
+          own: repos.filter(val => val.owner.id === user.github_user_id),
+          other: repos.filter(val => val.owner.id !== user.github_user_id)
+        })
       })
     })
   },

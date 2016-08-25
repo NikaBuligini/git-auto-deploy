@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import Dashboard from './dashboard'
-
 export default React.createClass({
   render () {
     return (
@@ -11,11 +9,11 @@ export default React.createClass({
           <Link to="/" className="personal-apps-link">
             <i className="fa fa-user" />My apps
           </Link>
-          {(() => this.props.params.repoName || '')()}
+          {(() => this.props.params.appName || '')()}
           <Link to="/create" className="new-app-link">Create new app</Link>
         </div>
         <div>
-          {this.props.children || <Dashboard />}
+          {this.props.children}
         </div>
       </div>
     )
