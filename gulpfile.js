@@ -29,9 +29,11 @@ gulp.task('font-awesome', ['fonts'], () => {
 
 gulp.task('sass', () => {
   return gulp.src('./public/sass/*.scss')
-    .pipe(concat('./public/css/app.css'))
+    .pipe(concat('./app.css'))
+    .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(gulp.dest('./'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./public/css/'))
 })
 
 function bundleJs (bundler) {
