@@ -2,30 +2,16 @@
 
 const mongoose = require('mongoose')
 
-// Create a new schema for our repository data
-var RepositorySchema = new mongoose.Schema({
+// Create a new schema for our app data
+var AppSchema = new mongoose.Schema({
   name: { type: String, required: true, index: { unique: true } },
   description: String,
-  github_repo_id: String,
-  full_name: String,
-  owner_id: String,
-  owner_name: String,
-  owner_avatar_url: String,
-  owner_html_url: String,
-  owner_type: String,
-  private: Boolean,
-  html_url: String,
-  fork: Boolean,
-  url: String,
-  tags_url: String,
-  pushed_at: Date,
-  clone_url: String,
-  default_branch: String,
+  connected_repository: { type: mongoose.Schema.ObjectId, ref: 'Repository' },
   created_at: Date,
   updated_at: { type: Date, default: Date.now }
 })
 
-RepositorySchema.pre('save', function (next) {
+AppSchema.pre('save', function (next) {
   // get the current date
   var currentDate = new Date()
 
@@ -38,7 +24,7 @@ RepositorySchema.pre('save', function (next) {
   next()
 })
 
-RepositorySchema.statics = {
+AppSchema.statics = {
   /**
    * Creates new app instance. method called from /create page
    *
@@ -48,13 +34,13 @@ RepositorySchema.statics = {
    * @api private
    */
   createApp: function (name, description, callback) {
-    let repo = new this({
+    let app = new this({
       name: slugify(name),
       description: description
     })
 
-    repo.save()
-    callback(repo)
+    app.save()
+    callback(app)
   }
 }
 
@@ -67,5 +53,5 @@ function slugify (text) {
     .replace(/-+$/, '')             // Trim - from end of text
 }
 
-// Return a Repository model based upon the defined schema
-module.exports = mongoose.model('Repository', RepositorySchema)
+// Return a App model based upon the defined schema
+module.exports = mongoose.model('App', AppSchema)

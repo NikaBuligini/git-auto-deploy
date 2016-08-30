@@ -12,7 +12,7 @@ var UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   avatar_url: String,
   html_url: String,
-  repositories: [{ type: mongoose.Schema.ObjectId, ref: 'Repository' }],
+  apps: [{ type: mongoose.Schema.ObjectId, ref: 'App' }],
   created_at: Date,
   updated_at: { type: Date, default: Date.now }
 })
@@ -40,7 +40,7 @@ UserSchema.statics = {
    */
   authenticate: function (gitUser, callback) {
     this.findOne({ github_user_id: gitUser.github_user_id })
-      .populate('repositories')
+      .populate('apps')
       .exec((err, user) => {
         if (err) throw err
 
@@ -64,7 +64,7 @@ UserSchema.statics = {
    */
   getFirstUser: function (callback) {
     this.findOne({})
-      // .populate('repositories')
+      // .populate('apps')
       .exec((err, user) => {
         if (err) throw err
         if (!user) throw new Error('User not found')
@@ -81,7 +81,7 @@ UserSchema.statics = {
    */
   getUser: function (userId, callback) {
     this.findById(userId)
-      // .populate('repositories')
+      // .populate('apps')
       .exec((err, user) => {
         if (err) throw err
         if (!user) throw new Error('User not found')
@@ -90,14 +90,14 @@ UserSchema.statics = {
   },
 
   /**
-   * Get user populated by repositories
+   * Get user populated by apps
    *
-   * @param {rawUser} user model without repositories
+   * @param {rawUser} user model without apps
    * @param {callback} fired after population
    * @api private
    */
   populateWithRepositories: function (rawUser, callback) {
-    this.populate(rawUser, 'repositories', callback)
+    this.populate(rawUser, 'apps', callback)
   },
 
   /**

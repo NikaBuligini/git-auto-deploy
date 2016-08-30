@@ -4,32 +4,14 @@ import $ from 'jquery'
 import Tabs from './app-tabs'
 import Loading from '../../partials/loading'
 
-var RepositoriesComponent = React.createClass({
-  render () {
-    if (this.props.repositories.length === 0) return null
-
-    return (
-      <div>
-        <h4>{this.props.title}</h4>
-        <ul>
-          {this.props.repositories.map((val, index) => {
-            let boundClick = this.props.connect.bind(null, val)
-            return <li key={index} onClick={boundClick}>{val.name}</li>
-          })}
-        </ul>
-      </div>
-    )
-  }
-})
-
 export default React.createClass({
   getInitialState () {
     return {
       source: '/api/repos',
       connectSource: '/api/app/connect',
       isLoaded: false,
-      own: undefined,
-      other: undefined
+      repos: undefined,
+      user: undefined
     }
   },
 
@@ -37,8 +19,8 @@ export default React.createClass({
     this.serverRequest = $.get(this.state.source, (result) => {
       this.setState({
         isLoaded: true,
-        own: result.own,
-        other: result.other
+        repos: result.repos,
+        user: result.user
       })
     })
   },
@@ -57,37 +39,32 @@ export default React.createClass({
       isLoaded: false
     })
 
-    // this.serverRequest = $.post(this.state.connectSource, data, (result) => {
-    //   this.setState({
-    //     isLoaded: true,
-    //     repositories: result.repositories,
-    //     user: result.user
-    //   })
-    // })
+    this.serverRequest = $.post(this.state.connectSource, data, (result) => {
+      this.setState({
+        isLoaded: true
+      })
+    })
   },
 
   render () {
     if (!this.state.isLoaded) return <Loading />
 
+    if (this.state.repos.length === 0) return <div>No repositories</div>
+
     return (
       <div className="repositories-container">
-        <RepositoriesComponent
-          title="Repositories you own"
-          repositories={this.state.own}
-          connect={this.connect} />
-        <RepositoriesComponent
-          title="Repositories you contribute"
-          repositories={this.state.other}
-          connect={this.connect} />
-        {(() => {
-          if (this.state.own.length === 0 && this.state.other.length === 0) {
+        <ul>
+          {this.state.repos.map((val, index) => {
+            let boundClick = this.connect.bind(null, val)
+            let cls = 'fa ' + (val.owner.id === this.state.user.github_user_id ? 'fa-lock' : 'fa-globe')
             return (
-              <div>
-                No repositories
-              </div>
+              <li key={index} onClick={boundClick}>
+                <i className={cls} aria-hidden="true"></i>
+                <a>{val.name}</a>
+              </li>
             )
-          }
-        })()}
+          })}
+        </ul>
       </div>
     )
   }
