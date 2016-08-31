@@ -10,17 +10,17 @@ const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
 var GitHubHelper = class GitHubHelper {
   static initGitHubApi (accessToken) {
     this.github = new GitHubApi({
-        // optional
-        // debug: true, // console output
-        Promise: Promise
-        // protocol: "https",
-        // host: "api.github.com", // should be api.github.com for GitHub
-        // pathPrefix: "/api/v3", // for some GHEs; none for GitHub
-        // headers: {
-        //     "user-agent": "buligini-oauth-test" // GitHub is happy with a unique user agent
-        // },
-        // followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
-        // timeout: 5000
+      Promise: Promise
+      // optional
+      // debug: true, // console output
+      // protocol: "https",
+      // host: "api.github.com", // should be api.github.com for GitHub
+      // pathPrefix: "/api/v3", // for some GHEs; none for GitHub
+      // headers: {
+      //     "user-agent": "buligini-oauth-test" // GitHub is happy with a unique user agent
+      // },
+      // followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
+      // timeout: 5000
     })
     this.github.authenticate({
       type: 'oauth',

@@ -8,10 +8,12 @@ const concat = require('gulp-concat')
 const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 const eslint = require('gulp-eslint')
+const bump = require('gulp-bump')
 
 const notifier = require('node-notifier')
 const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
+const argv = require('yargs').argv
 
 const browserify = require('browserify')
 const watchify = require('watchify')
@@ -91,4 +93,23 @@ gulp.task('lint', () => {
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
+})
+
+/**
+ * Usage:
+ *   gulp bump
+ *   gulp bump --major
+ *   gulp bump --minor
+ *   gulp bump --appversion 1.2.3
+ */
+gulp.task('bump', () => {
+  let options = {}
+
+  if (argv.major === true) options.type = 'major'
+  else if (argv.minor === true) options.type = 'minor'
+  else if (argv.appversion !== 'undefined') options.version = argv.appversion
+
+  gulp.src('./package.json')
+    .pipe(bump(options))
+    .pipe(gulp.dest('./'))
 })

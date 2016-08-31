@@ -1,7 +1,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const Promise = require('bluebird')
 
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({

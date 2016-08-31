@@ -1,7 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
 
-import Tabs from './app-tabs'
 import Loading from '../../partials/loading'
 
 export default React.createClass({

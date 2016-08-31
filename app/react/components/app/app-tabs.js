@@ -11,7 +11,7 @@ export default React.createClass({
         { name: 'Connect', url: root + '/connect' },
         { name: 'Activity', url: root + '/activity' },
         { name: 'Access', url: root + '/access' },
-        { name: 'Settings', url: root + '/settings' },
+        { name: 'Settings', url: root + '/settings' }
       ]
     }
   },
