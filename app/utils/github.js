@@ -1,6 +1,7 @@
 'use strict'
 
 const GitHubApi = require('github')
+const Promise = require('bluebird')
 const request = require('request')
 
 const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
@@ -76,12 +77,14 @@ var GitHubHelper = class GitHubHelper {
     })
   }
 
-  static repositories (accessToken, callback) {
-    this.initGitHubApi(accessToken)
+  static repositories (user) {
+    this.initGitHubApi(user.access_token)
 
-    this.github.repos.getAll({}, (err, repos) => {
-      if (err) throw err
-      callback(repos)
+    return new Promise((resolve, reject) => {
+      this.github.repos.getAll({}, (err, repos) => {
+        if (err) reject(err)
+        resolve(repos, user)
+      })
     })
   }
 }

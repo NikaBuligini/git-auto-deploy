@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const Promise = require('bluebird')
 
 // Create a new schema for our tweet data
 var UserSchema = new mongoose.Schema({
@@ -79,14 +80,16 @@ UserSchema.statics = {
    * @param {callback} fired after execution
    * @api private
    */
-  getUser: function (userId, callback) {
-    this.findById(userId)
-      // .populate('apps')
-      .exec((err, user) => {
-        if (err) throw err
-        if (!user) throw new Error('User not found')
-        callback(user)
-      })
+  getUser: function (userId) {
+    return new Promise((resolve, reject) => {
+      this.findById(userId)
+        // .populate('apps')
+        .exec((err, user) => {
+          if (err) reject(err)
+          if (!user) reject(new Error('User not found'))
+          resolve(user)
+        })
+    })
   },
 
   /**

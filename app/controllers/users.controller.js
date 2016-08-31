@@ -53,11 +53,15 @@ module.exports = {
   },
 
   homepage (req, res) {
-    User.getUser(req.session.user_id, (user) => {
-      res.render('./pages/home', {
-        title: 'React test',
-        user: user
+    User.getUser(req.session.user_id)
+      .then((user) => {
+        res.render('./pages/home', {
+          title: 'React test',
+          user: user
+        })
       })
-    })
+      .catch((err) => {
+        console.log(err.message)
+      })
   }
 }
