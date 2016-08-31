@@ -47,7 +47,7 @@ RepositorySchema.statics = {
    * @param {callback} fired after execution
    * @api private
    */
-  connect (repository, app, callback) {
+  connect (repository, app) {
     let repo = new this(repository)
     repo.github_repo_id = repository.id
     repo.owner_id = repository.owner.id
@@ -56,10 +56,11 @@ RepositorySchema.statics = {
     repo.owner_html_url = repository.owner.html_url
     repo.owner_type = repository.owner.type
 
-    repo.save(err => { if (err) console.log(err.message) })
-    app.connected_repository = repo._id
-
-    callback()
+    return repo.save()
+      .then((repo) => {
+        app.connected_repository = repo._id
+        return app.save()
+      })
   }
 }
 

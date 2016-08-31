@@ -2,7 +2,8 @@
 
 const GitHubApi = require('github')
 const Promise = require('bluebird')
-const request = require('request')
+// const request = Promise.promisifyAll(require('request'), { multiArgs: true })
+const rp = require('request-promise')
 
 const GITHUB_AUTH = 'https://github.com/login/oauth/authorize'
 
@@ -10,7 +11,8 @@ var GitHubHelper = class GitHubHelper {
   static initGitHubApi (accessToken) {
     this.github = new GitHubApi({
         // optional
-        // debug: true,
+        // debug: true, // console output
+        Promise: Promise
         // protocol: "https",
         // host: "api.github.com", // should be api.github.com for GitHub
         // pathPrefix: "/api/v3", // for some GHEs; none for GitHub
@@ -43,9 +45,10 @@ var GitHubHelper = class GitHubHelper {
     return `${GITHUB_AUTH}?client_id=${options.client_id}&scope=${options.scope.join(' ')}&state=${state}`
   }
 
-  static exchangeToken (code, state, callback) {
+  static exchangeToken (code, state) {
     this.initGitHubApi()
-    request.post({
+
+    let options = {
       url: 'https://github.com/login/oauth/access_token',
       form: {
         client_id: process.env.GITHUB_CLIENT_ID,
@@ -53,39 +56,42 @@ var GitHubHelper = class GitHubHelper {
         code: code,
         state: state
       }
-    }, (err, res, body) => {
-      if (err) throw err
+    }
 
-      body = JSON.parse('{"' + decodeURI(body).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+    let accessToken
 
-      this.github.authenticate({
-        type: 'oauth',
-        token: body.access_token
+    return rp(options)
+      .then((body) => {
+        body = JSON.parse('{"' + decodeURI(body).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+
+        accessToken = body.access_token
+
+        this.github.authenticate({
+          type: 'oauth',
+          token: accessToken
+        })
+
+        return this.github.users.get({})
       })
-
-      this.github.users.get({}, (err, gitUser) => {
-        callback(err, {
-          access_token: body.access_token,
-          github_user_id: gitUser.id,
-          email: gitUser.email,
-          username: gitUser.login,
-          name: gitUser.name,
-          avatar_url: gitUser.avatar_url,
-          html_url: gitUser.html_url
+      .then((gitUser) => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            access_token: accessToken,
+            github_user_id: gitUser.id,
+            email: gitUser.email,
+            username: gitUser.login,
+            name: gitUser.name,
+            avatar_url: gitUser.avatar_url,
+            html_url: gitUser.html_url
+          })
         })
       })
-    })
   }
 
   static repositories (user) {
     this.initGitHubApi(user.access_token)
 
-    return new Promise((resolve, reject) => {
-      this.github.repos.getAll({}, (err, repos) => {
-        if (err) reject(err)
-        resolve(repos, user)
-      })
-    })
+    return this.github.repos.getAll({})
   }
 }
 

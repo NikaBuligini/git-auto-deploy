@@ -30,17 +30,20 @@ AppSchema.statics = {
    *
    * @param {name} name of app, which will be slugified (example my-first-project)
    * @param {description} a brief description of app
-   * @param {callback} fired after execution
+   * @param {user} whom app belongs
    * @api private
    */
-  createApp: function (name, description, callback) {
+  createApp: function (name, description, user) {
     let app = new this({
       name: slugify(name),
       description: description
     })
 
-    app.save()
-    callback(app)
+    return app.save()
+      .then((app) => {
+        user.apps.push(app._id)
+        return user.save()
+      })
   }
 }
 

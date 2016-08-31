@@ -21,12 +21,13 @@ module.exports = {
       return res.redirect('/')
     }
 
-    GitHubHelper.exchangeToken(req.query.code, req.query.state, (err, gitUser) => {
-      if (err) throw err
-
-      User.authenticate(gitUser, (user) => {
+    GitHubHelper.exchangeToken(req.query.code, req.query.state)
+      .then((gitUser) => {
+        return User.authenticate(gitUser)
+      })
+      .then((user) => {
         // Regenerate session when signing in
-        return req.session.regenerate(() => {
+        req.session.regenerate(() => {
           // Store the user's primary key
           // in the session store to be retrieved,
           // or in this case the entire user object
@@ -34,16 +35,22 @@ module.exports = {
           res.redirect('/')
         })
       })
-    })
+      .catch((err) => {
+        console.log(err.message)
+      })
   },
 
   fakeLogin (req, res) {
-    User.getFirstUser((user) => {
-      return req.session.regenerate(() => {
-        req.session.user_id = user._id
-        res.redirect('/')
+    User.getFirstUser()
+      .then((user) => {
+        req.session.regenerate(() => {
+          req.session.user_id = user._id
+          res.redirect('/')
+        })
       })
-    })
+      .catch((err) => {
+        console.log(err.message)
+      })
   },
 
   logout (req, res) {

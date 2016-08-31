@@ -39,21 +39,18 @@ UserSchema.statics = {
    * @param {callback} fired after execution
    * @api private
    */
-  authenticate: function (gitUser, callback) {
-    this.findOne({ github_user_id: gitUser.github_user_id })
+  authenticate: function (gitUser) {
+    return this.findOne({ github_user_id: gitUser.github_user_id })
       .populate('apps')
-      .exec((err, user) => {
-        if (err) throw err
-
+      .exec()
+      .then((user) => {
         if (user) {
           user.access_token = gitUser.access_token
-          user.save(err => { if (err) throw err })
         } else {
           user = new this(gitUser)
-          user.save((err) => { if (err) throw err })
         }
 
-        callback(user)
+        return user.save()
       })
   },
 
@@ -63,14 +60,10 @@ UserSchema.statics = {
    * @param {callback} fired after execution
    * @api private
    */
-  getFirstUser: function (callback) {
-    this.findOne({})
-      // .populate('apps')
-      .exec((err, user) => {
-        if (err) throw err
-        if (!user) throw new Error('User not found')
-        callback(user)
-      })
+  getFirstUser: function () {
+    return this.findOne({})
+      .populate('apps')
+      .exec()
   },
 
   /**
@@ -81,26 +74,9 @@ UserSchema.statics = {
    * @api private
    */
   getUser: function (userId) {
-    return new Promise((resolve, reject) => {
-      this.findById(userId)
-        // .populate('apps')
-        .exec((err, user) => {
-          if (err) reject(err)
-          if (!user) reject(new Error('User not found'))
-          resolve(user)
-        })
-    })
-  },
-
-  /**
-   * Get user populated by apps
-   *
-   * @param {rawUser} user model without apps
-   * @param {callback} fired after population
-   * @api private
-   */
-  populateWithRepositories: function (rawUser, callback) {
-    this.populate(rawUser, 'apps', callback)
+    return this.findById(userId)
+      .populate('apps')
+      .exec()
   },
 
   /**

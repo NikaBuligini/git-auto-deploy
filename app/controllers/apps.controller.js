@@ -9,7 +9,7 @@ const Repository = require('../models/repositories')
 module.exports = {
   saveRepositories (user, callback) {
     GitHubHelper.repositories(user)
-      .then((repos, user) => {
+      .then((repos) => {
         let repositories = []
 
         repos.forEach((val) => {
@@ -33,14 +33,16 @@ module.exports = {
   },
 
   gitHubRepos (req, res) {
+    let resultUser
     User.getUser(req.session.user_id)
       .then((user) => {
+        resultUser = user
         return GitHubHelper.repositories(user)
       })
-      .then((repos, user) => {
+      .then((repos) => {
         res.json({
           repos: repos,
-          user: user
+          user: resultUser
         })
       })
       .catch((err) => {
@@ -51,12 +53,10 @@ module.exports = {
   createApp (req, res) {
     User.getUser(req.session.user_id)
       .then((user) => {
-        App.createApp(req.body.name, req.body.description, (repo) => {
-          user.apps.push(repo._id)
-          user.save()
-
-          res.redirect('/')
-        })
+        return App.createApp(req.body.name, req.body.description, user)
+      })
+      .then(() => {
+        res.redirect('/')
       })
       .catch((err) => {
         console.log(err.message)
@@ -65,11 +65,8 @@ module.exports = {
 
   installedApps (req, res) {
     User.getUser(req.session.user_id)
-      .then((rawUser) => {
-        User.populateWithRepositories(rawUser, (err, user) => {
-          if (err) throw err
-          res.json(user.apps)
-        })
+      .then((user) => {
+        res.json(user.apps)
       })
       .catch((err) => {
         console.log(err.message)
@@ -78,12 +75,9 @@ module.exports = {
 
   appByName (req, res) {
     User.getUser(req.session.user_id)
-      .then((rawUser) => {
-        User.populateWithRepositories(rawUser, (err, user) => {
-          if (err) throw err
-          let result = user.apps.filter(val => val.name === req.params.name)
-          res.json(result.length > 0 ? result[0] : {})
-        })
+      .then((user) => {
+        let result = user.apps.filter(val => val.name === req.params.name)
+        res.json(result.length > 0 ? result[0] : {})
       })
       .catch((err) => {
         console.log(err.message)
@@ -91,34 +85,22 @@ module.exports = {
   },
 
   connectToRepository (req, res) {
+    let app
     User.getUser(req.session.user_id)
       .then((user) => {
+        app = user.apps.filter(val => val.name === req.body.appName)[0]
         return GitHubHelper.repositories(user)
       })
-      .then((repos, user) => {
+      .then((repos) => {
         let targetRepoId = parseInt(req.body.repositoryId)
-        let filteredRepos = repos.filter(val => val.id === targetRepoId)
-
-        if (filteredRepos.length === 0) return res.json(false)
-
-        User.populateWithRepositories(rawUser, (err, user) => {
-          if (err) throw err
-          let filteredApps = user.apps.filter(val => val.name === req.body.appName)
-
-          if (filteredApps.length === 0) return res.json(false)
-
-          Repository.connect(filteredRepos[0], filteredApps[0], () => {
-            res.json({
-              filtered: filteredRepos,
-              filteredApps: filteredApps,
-              id: req.body.repositoryId,
-              appName: req.body.appName
-            })
-          })
-        })
+        return Repository.connect(repos.filter(val => val.id === targetRepoId)[0], app)
       })
-      .catch((err) => {
-        console.log(err.message)
+      .then(() => {
+        res.json({
+          app: app,
+          id: req.body.repositoryId,
+          appName: req.body.appName
+        })
       })
   }
 }
