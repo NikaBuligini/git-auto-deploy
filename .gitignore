@@ -42,3 +42,4 @@ jspm_packages
 # Generated files after build
 public/css
 public/fonts
+public/js

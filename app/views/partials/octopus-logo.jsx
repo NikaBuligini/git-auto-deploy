@@ -1,10 +1,7 @@
 import React from 'react'
 
 class Octopus extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
+  render () {
     return (
       <svg version="1.0" viewBox="0 0 360 406" preserveAspectRatio="xMidYMid meet" className="octopus">
         <metadata>Designed by nb</metadata>

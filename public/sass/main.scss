@@ -5,6 +5,12 @@ body {
   background-color: #f5f8fa;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 svg.octopus {
   position: absolute;
   width: 24pt;
@@ -43,7 +49,7 @@ svg.octopus:hover g {
 
 .topbar {
   border-bottom: 1px solid #e1e8ed;
-  position: fixed;
+  position: relative;
   top: 0;
   right: 0;
   left: 0;
@@ -52,7 +58,8 @@ svg.octopus:hover g {
 }
 .global-nav {
   background-color: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,.14),0 3px 1px -2px
+    rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
   height: 46px;
   position: relative;
   width: 100%;
@@ -63,6 +70,12 @@ svg.octopus:hover g {
     width: auto;
     height: 46px;
   }
+
+  img.profile {
+    width: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
 }
 
 .page-outer {
@@ -71,9 +84,35 @@ svg.octopus:hover g {
   .wrapper {
     margin: 0 auto;
     min-height: 0;
-    padding: 56px 23px 15px;
+    padding: 20px 23px;
     position: relative;
     width: 890px;
+
+    .navigation {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      margin-bottom: 10px;
+
+      .personal-apps-link {
+        padding: 5px 10px;
+        font-size: 15pt;
+        text-decoration: none;
+
+        .fa-user {
+          margin-right: 5px;
+        }
+      }
+
+      .personal-apps-link:hover {
+        background-color: #eef1f6;
+        border-radius: 3px;
+      }
+
+      .new-app-link {
+        float: right;
+      }
+    }
   }
 
   .auth-wrapper {
@@ -152,6 +191,22 @@ svg.octopus:hover g {
   .logout {
     line-height: 46px;
   }
+
+  .dropdown {
+    display: inline-block;
+    float: none !important;
+    margin: 0;
+
+    ul {
+      margin: 5px -5px 0 0;
+    }
+  }
+
+  .dropdown.open {
+    ul {
+      display: block;
+    }
+  }
 }
 
 .login-form {
@@ -190,4 +245,152 @@ pre.badcode {
   color: #c00;
   background-color: #fff8f8;
   border-color: #fff0f0;
+}
+
+.card {
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 3px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px
+    rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.gems {
+  li {
+    font-size: 13pt;
+    line-height: 34px;
+    padding: 0 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #e7ebf3;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+  }
+
+  li:hover {
+    background-color: #f7f8fb
+  }
+
+  .tools {
+    float: right;
+    height: 100%;
+    line-height: 35px;
+    font-size: 11pt;
+  }
+}
+
+.default-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -18px;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+  z-index: 2;
+  position: relative;;
+  left: 50%;
+  width: 35px;
+  height: 35px;
+
+  & .path {
+    stroke: #190321;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+.create-form {
+  padding: 15px 5px;
+}
+
+.app.card {
+  min-height: 400px;
+
+  .repositories-container {
+    min-height: 320px;
+    font-size: 16px;
+
+    ul {
+      padding-left: 15px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    li a {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    li:hover a {
+      text-decoration: underline;
+    }
+  }
+}
+
+.tabs-container {
+  .tabs {
+    margin-bottom: 10px;
+    box-shadow: inset 0 -1px 0 #e7ebf3;
+    width: 100%;
+
+    a {
+      display: inline-block;
+      position: relative;
+      font-size: 15px;
+      padding: 10px;
+      color: #96a3b6;
+      cursor: pointer;
+    }
+
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    a:hover::after,
+    .active::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      bottom: 0;
+      content: '';
+    }
+
+    a:hover::after {
+      border-bottom: 1px solid #cfd7e6;
+    }
+
+    .active::after,
+    .active:hover::after {
+      border-bottom: 1px solid #79589f;
+    }
+  }
 }

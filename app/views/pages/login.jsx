@@ -3,13 +3,9 @@ import React from 'react'
 import AuthLayout from '../layouts/auth'
 import Octopus from '../partials/octopus-logo'
 import Alert from '../util/alert'
-import Input from '../util/input'
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
+  render () {
     return (
       <AuthLayout title="Login">
         <div className="login">

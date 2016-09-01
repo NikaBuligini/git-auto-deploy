@@ -23,8 +23,14 @@ git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
 
 We will use **git up alias** for pulling changes from repository. If you are interested why we are doing this, check [this](http://stackoverflow.com/questions/15316601/in-what-cases-could-git-pull-be-harmful/15316602#15316602).
 
-you will also need to install gulp-cli on your machine
+## Contribution
 
-```{engine='sh'}
-sudo npm install -g gulp-cli
-```
+Please make sure to read the [Contributing Guide](https://github.com/NikaBuligini/git-auto-deploy/blob/master/CONTRIBUTING.md) before making a pull request.
+
+## Changelog
+
+Details changes for each release are documented in the [release notes](https://github.com/NikaBuligini/git-auto-deploy/releases).
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)

@@ -1,7 +1,7 @@
 import React from 'react'
 
 class InputComponent extends React.Component {
-  render() {
+  render () {
     return (
       <div className="form-group">
         <label htmlFor={this.props.data.id}>{this.props.data.label}</label>
