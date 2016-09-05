@@ -19,7 +19,7 @@ class DefaultLayout extends React.Component {
           <link rel="stylesheet" type="text/css" href="/css/app.css" />
         </head>
         <body>
-          <div>
+          <div className="development">
             <Navigation user={this.props.user} />
             <div className="page-outer">
               <div className="app-content wrapper wrapper-home">
@@ -27,6 +27,7 @@ class DefaultLayout extends React.Component {
               </div>
             </div>
           </div>
+          <div id="devtools" />
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossOrigin="anonymous"></script>
           <script src="/js/bundle.js"></script>
