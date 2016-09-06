@@ -19,7 +19,7 @@ class DefaultLayout extends React.Component {
           <link rel="stylesheet" type="text/css" href="/css/app.css" />
         </head>
         <body>
-          <div className="development">
+          <div>
             <Navigation user={this.props.user} />
             <div className="page-outer">
               <div className="app-content wrapper wrapper-home">

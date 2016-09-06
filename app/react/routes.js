@@ -11,7 +11,7 @@ import AppActivity from './components/app/activity'
 import AppAccess from './components/app/access'
 import AppSettings from './components/app/settings'
 
-const routes = (
+export default (
   <Route path="/" component={Layout}>
     <IndexRoute component={Dashboard}/>
     <Route path="create" component={CreateNewApp} />
@@ -25,5 +25,3 @@ const routes = (
     </Route>
   </Route>
 )
-
-export default routes

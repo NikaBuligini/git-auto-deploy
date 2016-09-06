@@ -18,3 +18,4 @@ rules:
 
 globals:
   __base: true
+  fetch: true
