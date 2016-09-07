@@ -4,6 +4,14 @@ import paginate from './paginate'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
+function repositories (state = [], action) {
+  if (action.response && action.response.repos) {
+    return merge({}, state, action.response.repos)
+  }
+
+  return state
+}
+
 // Updates an entity cache in response to any action with response.entities.
 function entities (state = { users: {}, repos: {} }, action) {
   if (action.response && action.response.entities) {
@@ -47,6 +55,7 @@ const pagination = combineReducers({
 })
 
 const rootReducer = combineReducers({
+  repositories,
   entities,
   pagination,
   errorMessage,

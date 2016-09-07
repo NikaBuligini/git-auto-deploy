@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { loadRepos } from '../../actions'
 import $ from 'jquery'
 
 import Loading from '../../partials/loading'
 
-export default React.createClass({
-  getInitialState () {
-    return {
+console.log(loadRepos())
+
+function loadData (props) {
+  console.log(props.loadRepos())
+}
+
+class Connect extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       source: '/api/repos',
       connectSource: '/api/app/connect',
       isLoaded: false,
       repos: undefined,
       user: undefined
     }
-  },
+    // this.renderUser = this.renderUser.bind(this)
+    // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
+  }
+
+  componentWillMount() {
+    loadData(this.props)
+  }
 
   componentDidMount () {
     this.serverRequest = $.get(this.state.source, (result) => {
@@ -22,11 +37,11 @@ export default React.createClass({
         user: result.user
       })
     })
-  },
+  }
 
   componentWillUnmount () {
     this.serverRequest.abort()
-  },
+  }
 
   connect (repository) {
     let data = {
@@ -43,7 +58,7 @@ export default React.createClass({
         isLoaded: true
       })
     })
-  },
+  }
 
   render () {
     if (!this.state.isLoaded) return <Loading />
@@ -67,4 +82,22 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+
+Connect.propTypes = {
+  app: PropTypes.object,
+  repos: PropTypes.object,
+  loadRepos: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state, ownProps) {
+  console.log(state)
+  return {
+    app: state.app,
+    repos: state.repos
+  }
+}
+
+export default connect(mapStateToProps, {
+  loadRepos
+})(Connect)

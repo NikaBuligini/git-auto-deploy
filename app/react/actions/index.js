@@ -1,5 +1,34 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
+export const REPOS_REQUEST = 'REPOS_REQUEST'
+export const REPOS_SUCCESS = 'REPOS_SUCCESS'
+export const REPOS_FAILURE = 'REPOS_FAILURE'
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchRepos () {
+  return {
+    [CALL_API]: {
+      types: [ REPOS_REQUEST, REPOS_SUCCESS, REPOS_FAILURE ],
+      endpoint: '/api/repos',
+      schema: Schemas.REPO
+    }
+  }
+}
+
+// Fetches a single repository from Github API unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadRepos () {
+  return (dispatch, getState) => {
+    const repos = getState().repositories
+    if (repos) {
+      return null
+    }
+
+    return dispatch(fetchRepos())
+  }
+}
+
 export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'
