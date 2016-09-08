@@ -4,6 +4,7 @@ import createLogger from 'redux-logger'
 import api from '../middleware/api'
 import rootReducer from '../reducers'
 import DevTools from '../containers/DevTools'
+// import devTools from 'remote-redux-devtools'
 
 export default function configureStore (preloadedState) {
   const store = createStore(
@@ -11,9 +12,16 @@ export default function configureStore (preloadedState) {
     preloadedState,
     compose(
       applyMiddleware(thunk, api, createLogger()),
-      DevTools.instrument()
+      // DevTools.instrument()
+      // devTools({ realtime: true })
+      window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
     )
   )
+
+  // if devToolsExtension is not installed use
+  // if (!window.devToolsExtension) {
+  //   devTools.updateStore(store)
+  // }
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
