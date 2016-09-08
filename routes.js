@@ -28,8 +28,8 @@ router.get('/apps/:appName/settings', auth.notAuthenticated, users.homepage)
 
 router.get('/api/repos', apps.gitHubRepos)
 router.get('/api/app/:name', apps.appByName)
-router.get('/api/app', apps.installedApps)
-router.post('/api/app/connect', apps.connectToRepository)
+router.get('/api/apps', apps.installedApps)
+router.post('/api/apps/connect', apps.connectToRepository)
 
 router.get('/page', (req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})

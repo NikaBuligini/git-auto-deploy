@@ -1,36 +1,26 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { loadApps } from '../actions'
 import $ from 'jquery'
 
 import Loading from '../partials/loading'
 
-export default React.createClass({
-  getInitialState () {
-    return {
-      source: '/api/app',
-      isLoaded: false,
-      repositories: undefined
-    }
-  },
+function loadData (props) {
+  props.loadApps()
+}
 
-  componentDidMount () {
-    this.serverRequest = $.get(this.state.source, (result) => {
-      console.log(result)
-      this.setState({
-        isLoaded: true,
-        repositories: result
-      })
-    })
-  },
-
-  componentWillUnmount () {
-    this.serverRequest.abort()
-  },
+class Dashboard extends Component {
+  componentWillMount () {
+    loadData(this.props)
+  }
 
   render () {
     let cls = 'gems card'
 
-    if (typeof this.state.repositories === 'undefined') {
+    const { isFetching, apps } = this.props
+
+    if (isFetching && typeof apps !== 'undefined') {
       return (
         <Loading cls={cls} />
       )
@@ -39,10 +29,11 @@ export default React.createClass({
     return (
       <div className={cls}>
         <ul>
-          {this.state.repositories.map((repo, index) => {
+          {Object.keys(apps).map((key, index) => {
+            let app = apps[key]
             return (
               <li key={index}>
-                <Link to={'/apps/' + repo.name} className="new-app-link">{repo.name}</Link>
+                <Link to={'/apps/' + app.name} className="new-app-link">{app.name}</Link>
               </li>
             )
           })}
@@ -50,4 +41,26 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+
+Dashboard.propTypes = {
+  apps: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  loadApps: PropTypes.func.isRequired
+}
+
+Dashboard.defaultProps = {
+  isFetching: true
+}
+
+function mapStateToProps(state, ownProps) {
+  const { isFetching, apps } = state.applications
+  return {
+    isFetching,
+    apps
+  }
+}
+
+export default connect(mapStateToProps, {
+  loadApps
+})(Dashboard)

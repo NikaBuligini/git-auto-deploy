@@ -1,5 +1,35 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
+export const APPS_REQUEST = 'APPS_REQUEST'
+export const APPS_SUCCESS = 'APPS_SUCCESS'
+export const APPS_FAILURE = 'APPS_FAILURE'
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchApps () {
+  return {
+    [CALL_API]: {
+      types: [ APPS_REQUEST, APPS_SUCCESS, APPS_FAILURE ],
+      endpoint: '/api/apps',
+      schema: Schemas.APP_ARRAY
+    }
+  }
+}
+
+// Fetches a list of applocations from server unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadApps () {
+  return (dispatch, getState) => {
+    const { apps } = getState().applications
+
+    if (Object.keys(apps).length !== 0) {
+      return null
+    }
+
+    return dispatch(fetchApps())
+  }
+}
+
 export const REPOS_REQUEST = 'REPOS_REQUEST'
 export const REPOS_SUCCESS = 'REPOS_SUCCESS'
 export const REPOS_FAILURE = 'REPOS_FAILURE'
@@ -11,7 +41,7 @@ function fetchRepos () {
     [CALL_API]: {
       types: [ REPOS_REQUEST, REPOS_SUCCESS, REPOS_FAILURE ],
       endpoint: '/api/repos',
-      schema: Schemas.REPO
+      schema: Schemas.REPO_ARRAY
     }
   }
 }
@@ -20,8 +50,9 @@ function fetchRepos () {
 // Relies on Redux Thunk middleware.
 export function loadRepos () {
   return (dispatch, getState) => {
-    const repos = getState().repositories
-    if (repos) {
+    const { repos } = getState().repositories
+
+    if (Object.keys(repos).length !== 0) {
       return null
     }
 

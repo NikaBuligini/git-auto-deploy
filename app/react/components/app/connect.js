@@ -5,42 +5,13 @@ import $ from 'jquery'
 
 import Loading from '../../partials/loading'
 
-console.log(loadRepos())
-
 function loadData (props) {
-  console.log(props.loadRepos())
+  props.loadRepos()
 }
 
 class Connect extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      source: '/api/repos',
-      connectSource: '/api/app/connect',
-      isLoaded: false,
-      repos: undefined,
-      user: undefined
-    }
-    // this.renderUser = this.renderUser.bind(this)
-    // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
-  }
-
   componentWillMount() {
     loadData(this.props)
-  }
-
-  componentDidMount () {
-    this.serverRequest = $.get(this.state.source, (result) => {
-      this.setState({
-        isLoaded: true,
-        repos: result.repos,
-        user: result.user
-      })
-    })
-  }
-
-  componentWillUnmount () {
-    this.serverRequest.abort()
   }
 
   connect (repository) {
@@ -61,20 +32,30 @@ class Connect extends Component {
   }
 
   render () {
-    if (!this.state.isLoaded) return <Loading />
+    const { isFetching, repos, preloaded } = this.props
 
-    if (this.state.repos.length === 0) return <div>No repositories</div>
+    if (isFetching && typeof repos !== 'undefined') {
+      return (
+        <Loading />
+      )
+    }
+
+    if (Object.keys(repos).length === 0) {
+      return <div>No repositories</div>
+    }
 
     return (
       <div className="repositories-container">
         <ul>
-          {this.state.repos.map((val, index) => {
-            let boundClick = this.connect.bind(null, val)
-            let cls = 'fa ' + (val.owner.id === this.state.user.github_user_id ? 'fa-lock' : 'fa-globe')
+          {Object.keys(repos).map((key, index) => {
+            let repo = repos[key]
+
+            let boundClick = this.connect.bind(null, repo)
+            let cls = 'fa ' + (repo.private ? 'fa-lock' : 'fa-globe')
             return (
               <li key={index} onClick={boundClick}>
                 <i className={cls} aria-hidden="true"></i>
-                <a>{val.name}</a>
+                <a>{repo.name}</a>
               </li>
             )
           })}
@@ -85,16 +66,23 @@ class Connect extends Component {
 }
 
 Connect.propTypes = {
-  app: PropTypes.object,
-  repos: PropTypes.object,
+  preloaded: PropTypes.object.isRequired,
+  repos: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   loadRepos: PropTypes.func.isRequired
 }
 
+Connect.defaultProps = {
+  isFetching: true
+}
+
 function mapStateToProps(state, ownProps) {
-  console.log(state)
+  const { preloaded } = state
+  const { isFetching, repos } = state.repositories
   return {
-    app: state.app,
-    repos: state.repos
+    preloaded,
+    isFetching,
+    repos
   }
 }
 
