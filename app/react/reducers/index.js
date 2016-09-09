@@ -8,9 +8,8 @@ function preloaded (state = {}, action) {
   return state
 }
 
-function applications (state = {
+function apps (state = {
   isFetching: false,
-  apps: {},
   error: null
 }, action) {
   switch (action.type) {
@@ -20,8 +19,7 @@ function applications (state = {
       })
     case ActionTypes.APPS_SUCCESS:
       return merge({}, state, {
-        isFetching: false,
-        apps: action.response.entities.apps
+        isFetching: false
       })
     case ActionTypes.APPS_FAILURE:
       return merge({}, state, {
@@ -33,9 +31,8 @@ function applications (state = {
   }
 }
 
-function repositories (state = {
+function repos (state = {
   isFetching: false,
-  repos: {},
   error: null
 }, action) {
   switch (action.type) {
@@ -45,8 +42,7 @@ function repositories (state = {
       })
     case ActionTypes.REPOS_SUCCESS:
       return merge({}, state, {
-        isFetching: false,
-        repos: action.response.entities.repos
+        isFetching: false
       })
     case ActionTypes.REPOS_FAILURE:
       return merge({}, state, {
@@ -58,8 +54,13 @@ function repositories (state = {
   }
 }
 
+const process = combineReducers({
+  apps,
+  repos
+})
+
 // Updates an entity cache in response to any action with response.entities.
-function entities (state = { users: {}, repos: {} }, action) {
+function entities (state = { users: {}, repos: {}, apps: {} }, action) {
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
@@ -102,8 +103,7 @@ const pagination = combineReducers({
 
 const rootReducer = combineReducers({
   preloaded,
-  applications,
-  repositories,
+  process,
   entities,
   pagination,
   errorMessage,

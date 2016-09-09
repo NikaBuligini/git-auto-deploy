@@ -4,7 +4,12 @@ import Navigation from '../partials/navigation'
 
 class DefaultLayout extends React.Component {
   render () {
-    const { _id, github_user_id } = this.props.user
+    const initialState = {
+      preloaded: {
+        userId: this.props.user._id,
+        gitId: this.props.user.github_user_id
+      }
+    }
     return (
       <html lang="en">
         <head>
@@ -29,8 +34,7 @@ class DefaultLayout extends React.Component {
             </div>
           </div>
           <div>
-            <input type="hidden" id="preloaded_user_id" value={_id} />
-            <input type="hidden" id="preloaded_git_id" value={github_user_id} />
+            <input type="hidden" id="initialState" value={JSON.stringify(initialState)} />
           </div>
           <div id="devtools" />
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

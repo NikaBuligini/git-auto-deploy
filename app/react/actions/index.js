@@ -20,7 +20,7 @@ function fetchApps () {
 // Relies on Redux Thunk middleware.
 export function loadApps () {
   return (dispatch, getState) => {
-    const { apps } = getState().applications
+    const { apps } = getState().entities
 
     if (Object.keys(apps).length !== 0) {
       return null
@@ -50,7 +50,7 @@ function fetchRepos () {
 // Relies on Redux Thunk middleware.
 export function loadRepos () {
   return (dispatch, getState) => {
-    const { repos } = getState().repositories
+    const { repos } = getState().entities
 
     if (Object.keys(repos).length !== 0) {
       return null

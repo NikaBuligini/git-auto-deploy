@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { loadApps } from '../actions'
-import $ from 'jquery'
 
-import Loading from '../partials/loading'
+import Loading from '../components/Loading'
 
 function loadData (props) {
   props.loadApps()
@@ -53,8 +52,9 @@ Dashboard.defaultProps = {
   isFetching: true
 }
 
-function mapStateToProps(state, ownProps) {
-  const { isFetching, apps } = state.applications
+function mapStateToProps (state, ownProps) {
+  const { isFetching } = state.process.apps
+  const { apps } = state.entities
   return {
     isFetching,
     apps

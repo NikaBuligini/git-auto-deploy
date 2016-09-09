@@ -33,10 +33,8 @@ module.exports = {
   },
 
   gitHubRepos (req, res) {
-    let resultUser
     User.getUser(req.session.user_id)
       .then((user) => {
-        resultUser = user
         return GitHubHelper.repositories(user)
       })
       .then((repos) => {

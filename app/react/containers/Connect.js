@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadRepos } from '../../actions'
+import { loadRepos } from '../actions'
 import $ from 'jquery'
 
-import Loading from '../../partials/loading'
+import Loading from '../components/Loading'
 
 function loadData (props) {
   props.loadRepos()
 }
 
 class Connect extends Component {
-  componentWillMount() {
+  componentWillMount () {
     loadData(this.props)
   }
 
@@ -32,7 +32,7 @@ class Connect extends Component {
   }
 
   render () {
-    const { isFetching, repos, preloaded } = this.props
+    const { isFetching, repos } = this.props
 
     if (isFetching && typeof repos !== 'undefined') {
       return (
@@ -76,9 +76,10 @@ Connect.defaultProps = {
   isFetching: true
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps (state, ownProps) {
   const { preloaded } = state
-  const { isFetching, repos } = state.repositories
+  const { isFetching } = state.process.repos
+  const { repos } = state.entities
   return {
     preloaded,
     isFetching,
