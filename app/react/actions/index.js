@@ -60,6 +60,24 @@ export function loadRepos () {
   }
 }
 
+export const APP_INSPECT = 'APP_INSPECT'
+
+// Selects an app for inspect
+function inspectApp (appName) {
+  return {
+    type: APP_INSPECT,
+    appName: appName
+  }
+}
+
+// Selects an app for inspect, uses inspectApp action creator
+// Relies on Redux Thunk middleware.
+export function selectAppForInspect (appName) {
+  return (dispatch, getState) => {
+    return dispatch(inspectApp(appName))
+  }
+}
+
 export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'

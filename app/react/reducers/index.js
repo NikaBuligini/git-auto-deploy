@@ -54,9 +54,17 @@ function repos (state = {
   }
 }
 
+function inspectingApp (state = '', action) {
+  if (action.type === ActionTypes.APP_INSPECT) {
+    return action.appName
+  }
+  return state
+}
+
 const process = combineReducers({
   apps,
-  repos
+  repos,
+  inspectingApp
 })
 
 // Updates an entity cache in response to any action with response.entities.

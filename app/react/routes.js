@@ -16,7 +16,7 @@ export default (
     <IndexRoute component={Dashboard}/>
     <Route path="create" component={CreateNewApp} />
     <Route path="apps/:appName" component={AppLayout}>
-      <IndexRoute path="overview" component={Overview} />
+      <IndexRoute component={Overview} />
       <Route path="overview" component={Overview} />
       <Route path="connect" component={Connect} />
       <Route path="activity" component={Activity} />
