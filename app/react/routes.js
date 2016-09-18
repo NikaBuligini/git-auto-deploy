@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import { Route, IndexRoute, IndexRedirect } from 'react-router'
 
 import Layout from './components/layout'
 import Dashboard from './containers/Dashboard'
@@ -16,7 +16,7 @@ export default (
     <IndexRoute component={Dashboard}/>
     <Route path="create" component={CreateNewApp} />
     <Route path="apps/:appName" component={AppLayout}>
-      <IndexRoute component={Overview} />
+      <IndexRedirect to="overview" />
       <Route path="overview" component={Overview} />
       <Route path="connect" component={Connect} />
       <Route path="activity" component={Activity} />

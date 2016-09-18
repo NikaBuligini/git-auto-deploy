@@ -1,22 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadApps, selectAppForInspect } from '../actions'
-import $ from 'jquery'
 
 import Loading from '../components/Loading'
 
-function selectApp (props, appName) {
-  if (Object.keys(props.app).length === 0) {
-    props.loadApps()
-  }
-  props.selectAppForInspect(appName)
-}
-
 class Overview extends Component {
-  componentDidMount () {
-    selectApp(this.props, this.props.params.appName)
-  }
-
   render () {
     const { isFetching, app } = this.props
 
@@ -36,9 +23,7 @@ class Overview extends Component {
 Overview.propTypes = {
   preloaded: PropTypes.object.isRequired,
   app: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  selectAppForInspect: PropTypes.func.isRequired,
-  loadApps: PropTypes.func.isRequired
+  isFetching: PropTypes.bool.isRequired
 }
 
 Overview.defaultProps = {
@@ -51,9 +36,10 @@ function mapStateToProps (state, ownProps) {
   const { apps } = state.entities
   const { inspectingApp } = state.process
 
-  let filtered = Object.keys(apps).filter((id) => {
-    return apps[id].name === inspectingApp
-  })
+  let filtered = Object.keys(apps)
+    .filter((id) => {
+      return apps[id].name === inspectingApp
+    })
   let app = filtered.length !== 0 ? apps[filtered[0]] : {}
 
   return {
@@ -63,7 +49,4 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, {
-  selectAppForInspect,
-  loadApps
-})(Overview)
+export default connect(mapStateToProps, {})(Overview)

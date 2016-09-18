@@ -74,6 +74,12 @@ function inspectApp (appName) {
 // Relies on Redux Thunk middleware.
 export function selectAppForInspect (appName) {
   return (dispatch, getState) => {
+    const { inspectingApp } = getState().process
+
+    if (appName === inspectingApp) {
+      return null
+    }
+
     return dispatch(inspectApp(appName))
   }
 }
