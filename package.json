@@ -1,6 +1,6 @@
 {
   "name": "git-auto-deploy",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "deploy project automatically from your github repo",
   "main": "server.js",
   "scripts": {
