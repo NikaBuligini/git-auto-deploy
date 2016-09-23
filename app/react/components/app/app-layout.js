@@ -17,11 +17,12 @@ class AppLayout extends Component {
   }
 
   render () {
-    let cls = 'app card'
+    const { app } = this.props
+    const cls = 'app card'
 
     return (
       <div className={cls}>
-        <Tabs appName={this.props.params.appName} />
+        <Tabs app={app} />
         {this.props.children}
       </div>
     )
