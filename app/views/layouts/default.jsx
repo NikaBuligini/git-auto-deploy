@@ -4,6 +4,12 @@ import Navigation from '../partials/navigation'
 
 class DefaultLayout extends React.Component {
   render () {
+    const initialState = {
+      preloaded: {
+        userId: this.props.user._id,
+        gitId: this.props.user.github_user_id
+      }
+    }
     return (
       <html lang="en">
         <head>
@@ -27,6 +33,10 @@ class DefaultLayout extends React.Component {
               </div>
             </div>
           </div>
+          <div>
+            <input type="hidden" id="initialState" value={JSON.stringify(initialState)} />
+          </div>
+          <div id="devtools" />
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossOrigin="anonymous"></script>
           <script src="/js/bundle.js"></script>

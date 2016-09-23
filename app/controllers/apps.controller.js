@@ -33,17 +33,12 @@ module.exports = {
   },
 
   gitHubRepos (req, res) {
-    let resultUser
     User.getUser(req.session.user_id)
       .then((user) => {
-        resultUser = user
         return GitHubHelper.repositories(user)
       })
       .then((repos) => {
-        res.json({
-          repos: repos,
-          user: resultUser
-        })
+        res.json(repos)
       })
       .catch((err) => {
         console.log(err.message)
@@ -69,7 +64,7 @@ module.exports = {
         res.json(user.apps)
       })
       .catch((err) => {
-        console.log(err.message)
+        console.log('err', err.message)
       })
   },
 

@@ -1,34 +1,48 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-export default React.createClass({
-  getInitialState () {
-    let root = '/apps/' + this.props.appName
-
-    return {
+class Tabs extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       links: [
-        { name: 'Overview', url: root + '/overview' },
-        { name: 'Connect', url: root + '/connect' },
-        { name: 'Activity', url: root + '/activity' },
-        { name: 'Access', url: root + '/access' },
-        { name: 'Settings', url: root + '/settings' }
+        { name: 'Overview', action: 'overview' },
+        { name: 'Connect', action: 'connect' },
+        { name: 'Activity', action: 'activity' },
+        { name: 'Access', action: 'access' },
+        { name: 'Settings', action: 'settings' }
       ]
     }
-  },
+  }
 
   render () {
-    let tabs = this.state.links.map((val, index) => {
-      return (
-        <Link to={val.url} key={index} className="tab" activeClassName="active">{val.name}</Link>
-      )
-    })
+    const { app } = this.props
+    const { links } = this.state
 
     return (
       <div className="tabs-container">
         <div className="tabs">
-          {tabs}
+          {links.map((val, index) => {
+            const url = `/apps/${app.name}/${val.action}`
+            return (
+              <Link
+                to={url}
+                key={index}
+                className="tab"
+                activeClassName="active"
+              >
+                {val.name}
+              </Link>
+            )
+          })}
         </div>
       </div>
     )
   }
-})
+}
+
+Tabs.propTypes = {
+  app: PropTypes.object.isRequired
+}
+
+export default Tabs

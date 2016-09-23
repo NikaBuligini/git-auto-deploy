@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default React.createClass({
+class Loading extends Component {
   render () {
     let cls = this.props.cls || 'default-loading'
 
@@ -13,4 +13,6 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+
+export default Loading
