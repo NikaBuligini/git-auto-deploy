@@ -25,7 +25,7 @@ We will use **git up alias** for pulling changes from repository. If you are int
 
 ## Contribution
 
-Please make sure to read the [Contributing Guide](https://github.com/NikaBuligini/git-auto-deploy/blob/master/CONTRIBUTING.md) before making a pull request.
+Please make sure to read the [Contributing Guide](https://github.com/NikaBuligini/git-auto-deploy/blob/master/docs/CONTRIBUTING.md) before making a pull request.
 
 ## Changelog
 
